@@ -2,115 +2,166 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Rachunek FlushRP-EMS</title>
+    <title>System Faktur - FlushRP-EMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Courier New', Courier, monospace; padding: 30px; background: #0a192f; color: white; }
+        body { font-family: 'Roboto Mono', monospace; background: #020c1b; color: white; padding: 20px; }
         
-        .nav-buttons {
-            max-width: 800px;
+        .nav-bar {
+            max-width: 700px;
             margin: 0 auto 20px auto;
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .invoice-box { 
-            background: white; 
-            padding: 40px; 
-            max-width: 800px; 
-            margin: auto; 
-            color: black;
-            border: 1px solid #eee; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        .header { display: flex; justify-content: space-between; border-bottom: 2px solid black; padding-bottom: 20px; margin-bottom: 20px; }
-        .logo { max-width: 100px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
-        
-        .total { text-align: right; font-size: 1.5rem; font-weight: bold; margin-top: 20px; }
-
-        .btn { 
-            padding: 10px 20px; 
-            border: none; 
-            cursor: pointer; 
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 4px;
             text-decoration: none;
-            font-family: Arial, sans-serif;
+            text-align: center;
             transition: 0.3s;
         }
 
-        .btn-back { background: #444; color: white; }
-        .btn-print { background: #00d4ff; color: #020c1b; }
-        .btn-copy { background: #00ff88; color: #020c1b; }
-        
-        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+        .btn-back { background: #1a2a44; color: #00d4ff; border: 1px solid #00d4ff; }
+        .btn-copy { background: #00d4ff; color: #020c1b; flex-grow: 1; font-size: 1.1rem; }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(0,212,255,0.4); }
 
-        @media print { 
-            .nav-buttons { display: none; } 
-            body { background: white; padding: 0; } 
-            .invoice-box { box-shadow: none; border: none; width: 100%; } 
+        .invoice-card {
+            background: white;
+            color: black;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 2px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        .doc-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            border-bottom: 3px solid black;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo-small { max-width: 100px; height: auto; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { text-align: left; border-bottom: 2px solid black; padding: 10px 5px; }
+        td { padding: 10px 5px; border-bottom: 1px solid #eee; }
+        
+        .total-box {
+            text-align: right;
+            margin-top: 30px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-top: 3px solid black;
+            padding-top: 10px;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 5rem;
+            color: rgba(0,0,0,0.05);
+            pointer-events: none;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
 
-<div class="nav-buttons">
+<div class="nav-bar">
     <a href="index.html" class="btn btn-back">⬅ POWRÓT</a>
-    <button class="btn btn-print" onclick="window.print()">ZAPISZ JAKO PDF</button>
-    <button class="btn btn-copy" onclick="copyInvoice()">SKOPIUJ TEKST</button>
+    <button class="btn btn-copy" onclick="copyToClipboard()">📋 KOPIUJ FAKTURĘ DO SCHOWKA</button>
 </div>
 
-<div class="invoice-box" id="invoice">
-    <div class="header">
+<div class="invoice-card" id="printable">
+    <div class="watermark">FLUSHRP-EMS</div>
+    <div class="doc-header">
         <div>
-            <h1 style="margin:0;">FLUSHRP MEDICAL SERVICES</h1>
-            <p style="margin:5px 0;">DOKUMENTACJA MEDYCZNA NR: #<span id="inv-id"></span></p>
-            <p id="inv-date" style="margin:0; font-size: 0.9rem;"></p>
+            <h1 style="margin:0; font-size: 1.5rem;">FLUSHRP MEDICAL SERVICES</h1>
+            <p style="margin:5px 0;">LOS SANTOS, SAN ANDREAS</p>
+            <p id="disp-id" style="margin:0; font-size: 0.8rem; color: #666;"></p>
         </div>
-        <img src="obraz_2026-05-02_212208153.png" class="logo">
+        <img src="obraz_2026-05-02_212208153.png" class="logo-small">
     </div>
 
-    <p><strong>PACJENT:</strong> <span id="inv-patient"></span></p>
+    <div style="margin-bottom: 30px;">
+        <strong>DATA:</strong> <span id="disp-date"></span><br>
+        <strong>PACJENT:</strong> <span id="disp-patient"></span><br>
+        <strong>STATUS:</strong> <span style="color: green;">ZATWIERDZONO</span>
+    </div>
 
     <table>
         <thead>
-            <tr><th>USŁUGA / LEK</th><th>ILOŚĆ</th><th>KOSZT</th></tr>
+            <tr>
+                <th>OPIS USŁUGI</th>
+                <th style="text-align: right;">KOSZT</th>
+            </tr>
         </thead>
-        <tbody id="inv-items"></tbody>
+        <tbody id="disp-items">
+            </tbody>
     </table>
 
-    <div class="total">SUMA: $<span id="inv-total"></span></div>
-    
-    <div style="margin-top: 50px; font-size: 0.8rem; border-top: 1px dashed black; padding-top: 10px;">
-        STATUS: OPŁACONO SYSTEMOWO<br>
-        WYSTAWIŁ: SYSTEM FLUSHRP-EMS<br>
-        <em>Author: Prywatny Andrzej Duda</em>
+    <div class="total-box">
+        SUMA: $<span id="disp-total"></span>
+    </div>
+
+    <div style="margin-top: 60px; font-size: 0.8rem; border-top: 1px solid #000; padding-top: 10px;">
+        DOKUMENT WYSTAWIONY ELEKTRONICZNIE PRZEZ SYSTEM ZARZĄDZANIA EMS<br>
+        AUTHOR: PRYWATNY ANDRZEJ DUDA // FLUSHRP 2026
     </div>
 </div>
 
 <script>
     const data = JSON.parse(localStorage.getItem('lastInvoice'));
+    
     if(data) {
-        document.getElementById('inv-patient').innerText = data.patient;
-        document.getElementById('inv-total').innerText = data.total;
-        document.getElementById('inv-date').innerText = "Data wystawienia: " + data.date;
-        document.getElementById('inv-id').innerText = Math.floor(Math.random() * 90000) + 10000;
+        document.getElementById('disp-patient').innerText = data.patient;
+        document.getElementById('disp-total').innerText = data.total;
+        document.getElementById('disp-date').innerText = data.date;
+        document.getElementById('disp-id').innerText = "NR DOKUMENTU: " + Math.floor(Math.random() * 899999 + 100000);
         
-        const tbody = document.getElementById('inv-items');
+        const list = document.getElementById('disp-items');
         data.items.forEach(item => {
-            tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>$${item.price}</td></tr>`;
+            list.innerHTML += `<tr><td>${item.name} (x${item.qty})</td><td style="text-align:right;">$${item.price}</td></tr>`;
         });
     }
 
-    function copyInvoice() {
-        const patient = document.getElementById('inv-patient').innerText;
-        const total = document.getElementById('inv-total').innerText;
-        const text = `--- RACHUNEK FLUSHRP-EMS ---\\nPacjent: ${patient}\\nSuma: $${total}\\nStatus: Zrealizowano`;
-        navigator.clipboard.writeText(text);
-        alert("Skopiowano podstawowe dane do schowka!");
+    function copyToClipboard() {
+        if(!data) return;
+
+        let itemText = "";
+        data.items.forEach(item => {
+            itemText += `║ > ${item.name.padEnd(25)} | $${item.price.padStart(8)} ║\\n`;
+        });
+
+        const report = 
+`╔══════════════════════════════════════════╗
+  FLUSHRP MEDICAL SERVICES - RACHUNEK
+╚══════════════════════════════════════════╝
+  DATA: ${data.date}
+  PACJENT: ${data.patient}
+╔══════════════════════════════════════════╗
+${itemText}
+╠══════════════════════════════════════════╣
+  SUMA CAŁKOWITA: $${data.total}
+╚══════════════════════════════════════════╝
+  STATUS: OPŁACONO
+  WYSTAWIONO PRZEZ: FLUSHRP-EMS SYSTEM`;
+
+        navigator.clipboard.writeText(report).then(() => {
+            alert("Skopiowano raport do schowka! Możesz go teraz wkleić w grze lub na Discordzie.");
+        });
     }
 </script>
 
