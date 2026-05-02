@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Medyczny - River City EMS</title>
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #0056b3;
+            --success: #00ff88;
+            --bg-dark: #0b0e14;
+            --card-bg: #151921;
+            --text-main: #e0e6ed;
+            --accent-red: #ff4d4d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            border: 1px solid #2a2f3b;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: var(--accent-red);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .section-header {
+            background: linear-gradient(90deg, var(--secondary), transparent);
+            padding: 10px 15px;
+            margin-top: 30px;
+            border-left: 5px solid var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #2a2f3b;
+        }
+
+        th {
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        input[type="number"] {
+            width: 70px;
+            background: #0b0e14;
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .total-box {
+            position: sticky;
+            bottom: 20px;
+            background: var(--primary);
+            color: #000;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .total-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        #total-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .btn-calc {
+            background: var(--success);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>River City Medical Services</h1>
+        <div class="subtitle">Emergency Medical Services - Billing Department</div>
+    </header>
+
+    <div class="section-header">Transport i Przebieg</div>
+    <table>
+        <thead>
+            <tr><th>Usługa</th><th>Cena Jedn.</th><th>Wybór / Ilość</th></tr>
+        </thead>
+        <tbody id="transport-rows">
+            <tr data-price="650"><td>Basic Life Support (BLS)</td><td>$650.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="950"><td>Advanced Life Support (ALS-1)</td><td>$950.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="1250"><td>Advanced Life Support (ALS-2)</td><td>$1250.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="1800"><td>Specialty Care Transport (SCT)</td><td>$1800.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="25"><td>Przebieg Ambulansu (Mile)</td><td>$25.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-header">Procedury Ratunkowe</div>
+    <table>
+        <thead>
+            <tr><th>Zabieg</th><th>Cena Jedn.</th><th>Wybór</th></tr>
+        </thead>
+        <tbody id="proc-rows">
+            <tr data-price="150"><td>EKG 12-Odprowadzeniowe</td><td>$150.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="350"><td>Kardiowersja / Defibrylacja</td><td>$350.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="450"><td>Intubacja (ETI) / Airway Mgmt</td><td>$450.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="320"><td>Dostęp Doszpikowy (IO)</td><td>$320.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="125"><td>Kapnografia (EtCO2)</td><td>$125.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="280"><td>Odbarczenie igłowe klatki piersiowej</td><td>$280.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="175"><td>CPAP / Wspomaganie oddechu</td><td>$175.00</td><td><input type="checkbox" class="item-check"></td></tr>
+            <tr data-price="90"><td>Płukanie żołądka / Aktywowany węgiel</td><td>$90.00</td><td><input type="checkbox" class="item-check"></td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-header">Farmakoterapia (Leki)</div>
+    <table>
+        <thead>
+            <tr><th>Lek</th><th>Cena / Dawka</th><th>Ilość Dawek</th></tr>
+        </thead>
+        <tbody id="drug-rows">
+            <tr data-price="120"><td>Epinephrine (Adrenalina)</td><td>$120.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="150"><td>Naloxone (Narcan)</td><td>$150.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="130"><td>Fentanyl (Pain Mgmt)</td><td>$130.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="130"><td>Morphine Sulfate</td><td>$130.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="200"><td>Ketamine (Sedacja/Ból)</td><td>$200.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="180"><td>Amiodarone (Antyarytmiczny)</td><td>$180.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="110"><td>Adenosine (SVT)</td><td>$110.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="100"><td>Dextrose 50% (D50)</td><td>$100.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="95"><td>Glucagon</td><td>$95.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="85"><td>Atropine Sulfate</td><td>$85.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="75"><td>Albuterol / Atrovent (Nebulizacja)</td><td>$75.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="60"><td>Ondansetron (Zofran)</td><td>$60.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="140"><td>Magnesium Sulfate</td><td>$140.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="115"><td>Sodium Bicarbonate</td><td>$115.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="90"><td>Diazepam / Midazolam</td><td>$90.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+            <tr data-price="50"><td>Aspiryna (ASA)</td><td>$50.00</td><td><input type="number" class="item-qty" value="0" min="0"></td></tr>
+        </tbody>
+    </table>
+
+    <div class="total-box">
+        <div>
+            <div class="total-label">Suma do zapłaty</div>
+            <div id="total-amount">$0.00</div>
+        </div>
+        <button class="btn-calc" onclick="calculate()">Przelicz Koszty</button>
+    </div>
+
+    <div class="footer-note">
+        * Taryfikator zgodny ze standardami River City EMS Policy. Ceny mogą ulec zmianie w zależności od ubezpieczyciela.
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        let total = 0;
+        
+        // Checkboxy
+        const checks = document.querySelectorAll('.item-check');
+        checks.forEach(check => {
+            if (check.checked) {
+                total += parseFloat(check.closest('tr').dataset.price);
+            }
+        });
+
+        // Pola liczbowe
+        const qtys = document.querySelectorAll('.item-qty');
+        qtys.forEach(input => {
+            const val = parseInt(input.value);
+            if (val > 0) {
+                total += val * parseFloat(input.closest('tr').dataset.price);
+            }
+        });
+
+        document.getElementById('total-amount').innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
+    }
+</script>
+
+</body>
+</html>
