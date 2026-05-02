@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>River City EMS - Billing System</title>
+    <!-- Import czcionki z Google Fonts dla lepszego wyglądu -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --dark-blue: #0a192f;
+            --accent-red: #ff4d4d;
+            --success-green: #00ff88;
+            --text-light: #e6f1ff;
+            --card-bg: rgba(16, 33, 65, 0.8);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #020c1b 0%, #0a192f 100%);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .status-online { color: var(--success-green); }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 15px 20px;
+            font-weight: bold;
+            border-left: 4px solid var(--primary-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            font-size: 0.8rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+        input[type="number"] {
+            width: 60px;
+            background: #020c1b;
+            border: 1px solid var(--primary-blue);
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+        }
+
+        .billing-summary {
+            position: sticky;
+            bottom: 20px;
+            background: linear-gradient(90deg, #00d4ff, #0056b3);
+            color: #020c1b;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .total-info h2 { margin: 0; font-size: 1rem; text-transform: uppercase; }
+        .total-info #total-amount { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: bold; }
+
+        .btn-action {
+            background: #020c1b;
+            color: var(--primary-blue);
+            border: 2px solid #020c1b;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-action:hover {
+            background: transparent;
+            color: #020c1b;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            h1 { font-size: 1.5rem; }
+            .billing-summary { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>RIVER CITY EMS</h1>
+        <div class="status-bar">
+            <span>System: <span class="status-online">Active</span></span>
+            <span>Region: Sector 4</span>
+            <span>Unit: Billing v2.0</span>
+        </div>
+    </header>
+
+    <!-- TRANSPORT SEKCJA -->
+    <div class="section-card">
+        <div class="section-header">TRANSPORT SERVICES</div>
+        <table>
+            <thead>
+                <tr><th>Service Type</th><th>Base Rate</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                <tr data-price="650"><td>BLS Emergency Transport</td><td>$650.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="950"><td>ALS Level 1</td><td>$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="1250"><td>ALS Level 2 (Critical)</td><td>$1250.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="25"><td>Mileage (Per Mile)</td><td>$25.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PROCEDURY SEKCJA -->
+    <div class="section-card">
+        <div class="section-header">MEDICAL PROCEDURES</div>
+        <table>
+            <thead>
+                <tr><th>Procedure</th><th>Rate</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                <tr data-price="150"><td>12-Lead ECG Diagnostic</td><td>$150.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="450"><td>Endotracheal Intubation</td><td>$450.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="350"><td>Defibrillation / Sync Shock</td><td>$350.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="320"><td>Intraosseous (IO) Access</td><td>$320.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="175"><td>CPAP Administration</td><td>$175.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="120"><td>IV Start & Supplies</td><td>$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-price="280"><td>Chest Decompression</td><td>$280.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- LEKI SEKCJA -->
+    <div class="section-card">
+        <div class="section-header">PHARMACEUTICALS</div>
+        <table>
+            <thead>
+                <tr><th>Medication</th><th>Rate / Dose</th><th>Quantity</th></tr>
+            </thead>
+            <tbody>
+                <tr data-price="120"><td>Epinephrine 1:10,000</td><td>$120.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="200"><td>Ketamine HCl</td><td>$200.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="150"><td>Naloxone (Narcan)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="130"><td>Fentanyl Citrate</td><td>$130.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="180"><td>Amiodarone</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="90"><td>Adenosine</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="100"><td>Dextrose 50%</td><td>$100.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="140"><td>Magnesium Sulfate</td><td>$140.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="95"><td>Midazolam (Versed)</td><td>$95.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="60"><td>Ondansetron</td><td>$60.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="75"><td>Albuterol Nebulizer</td><td>$75.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-price="85"><td>Atropine Sulfate</td><td>$85.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="billing-summary">
+        <div class="total-info">
+            <h2>Total Patient Responsibility</h2>
+            <div id="total-amount">$0.00</div>
+        </div>
+        <button class="btn-action" onclick="runCalculation()">Generate Bill</button>
+    </div>
+
+    <footer>
+        SECURE BILLING PORTAL // RIVER CITY MEDICAL // ENCRYPTED CONNECTION
+    </footer>
+</div>
+
+<script>
+    function runCalculation() {
+        let total = 0;
+        
+        // Checkboxy (procedury)
+        document.querySelectorAll('.calc-check').forEach(item => {
+            if (item.checked) {
+                total += parseFloat(item.closest('tr').dataset.price);
+            }
+        });
+
+        // Pola numeryczne (leki, mile)
+        document.querySelectorAll('.calc-qty').forEach(item => {
+            const count = parseInt(item.value) || 0;
+            if (count > 0) {
+                total += count * parseFloat(item.closest('tr').dataset.price);
+            }
+        });
+
+        const display = document.getElementById('total-amount');
+        display.innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
+        
+        // Efekt "mignięcia" przy przeliczaniu
+        display.style.opacity = '0.5';
+        setTimeout(() => display.style.opacity = '1', 100);
+    }
+</script>
+
+</body>
+</html>
