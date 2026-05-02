@@ -36,7 +36,6 @@
             position: relative;
         }
 
-        /* Logo w prawym gornym rogu */
         .logo-container {
             position: absolute;
             top: 20px;
@@ -45,7 +44,7 @@
         }
 
         .logo-img {
-            max-width: 80px; /* Dostosuj wielkosc logo */
+            max-width: 90px;
             height: auto;
             border-radius: 5px;
             display: block;
@@ -182,27 +181,25 @@
 <body>
 
 <div class="container">
-    <!-- Logo i Autor -->
     <div class="logo-container">
-        <img src="obraz_2026-05-02_211701002.png" alt="FlushRP Logo" class="logo-img">
+        <img src="obraz_2026-05-02_212208153.png" alt="FlushRP Logo" class="logo-img">
         <div class="author-tag">Author: Prywatny Andrzej Duda</div>
     </div>
 
     <header>
         <h1>FlushRP-EMS</h1>
         <div class="status-bar">
-            <span>System: <span class="status-online">Zalogowano</span></span>
+            <span>System: <span class="status-online">Połączono</span></span>
             <span>Region: Los Santos</span>
-            <span>Wersja: 3.0 (Zniżka 10% aktywowana)</span>
+            <span>Sektor: Medyczny</span>
         </div>
     </header>
 
-    <!-- TRANSPORT (Ceny -10%) -->
     <div class="section-card">
         <div class="section-header">USŁUGI TRANSPORTOWE</div>
         <table>
             <thead>
-                <tr><th>Rodzaj Usługi</th><th>Stawka (-10%)</th><th>Wybór / Ilość</th></tr>
+                <tr><th>Rodzaj Usługi</th><th>Stawka</th><th>Wybór / Ilość</th></tr>
             </thead>
             <tbody>
                 <tr data-price="585"><td>Transport BLS (Podstawowy)</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
@@ -217,12 +214,11 @@
         </table>
     </div>
 
-    <!-- PROCEDURY (Ceny -10%) -->
     <div class="section-card">
         <div class="section-header">PROCEDURY MEDYCZNE</div>
         <table>
             <thead>
-                <tr><th>Procedura / Zabieg</th><th>Stawka (-10%)</th><th>Wybór</th></tr>
+                <tr><th>Procedura / Zabieg</th><th>Stawka</th><th>Wybór</th></tr>
             </thead>
             <tbody>
                 <tr data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
@@ -241,12 +237,11 @@
         </table>
     </div>
 
-    <!-- LEKI (Ceny -10%) -->
     <div class="section-card">
         <div class="section-header">LEKI I FARMACEUTYKI</div>
         <table>
             <thead>
-                <tr><th>Lek</th><th>Stawka (-10%)</th><th>Ilość</th></tr>
+                <tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr>
             </thead>
             <tbody>
                 <tr data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
@@ -269,10 +264,10 @@
 
     <div class="billing-summary">
         <div class="total-info">
-            <h2>RAZEM (WALUTA: USD)</h2>
+            <h2>PODSUMOWANIE RACHUNKU</h2>
             <div id="total-amount">$0.00</div>
         </div>
-        <button class="btn-action" onclick="runCalculation()">PRZELICZ RACHUNEK</button>
+        <button class="btn-action" onclick="runCalculation()">PRZELICZ</button>
     </div>
 
     <footer>
@@ -283,23 +278,19 @@
 <script>
     function runCalculation() {
         let total = 0;
-        
         document.querySelectorAll('.calc-check').forEach(item => {
             if (item.checked) {
                 total += parseFloat(item.closest('tr').dataset.price);
             }
         });
-
         document.querySelectorAll('.calc-qty').forEach(item => {
             const count = parseInt(item.value) || 0;
             if (count > 0) {
                 total += count * parseFloat(item.closest('tr').dataset.price);
             }
         });
-
         const display = document.getElementById('total-amount');
         display.innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
-        
         display.style.opacity = '0.5';
         setTimeout(() => display.style.opacity = '1', 100);
     }
