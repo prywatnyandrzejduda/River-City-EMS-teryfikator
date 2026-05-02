@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rachunek FlushRP-EMS</title>
+    <style>
+        body { font-family: 'Courier New', Courier, monospace; padding: 50px; background: #f0f0f0; }
+        .invoice-box { 
+            background: white; 
+            padding: 40px; 
+            max-width: 800px; 
+            margin: auto; 
+            border: 1px solid #eee; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid black; padding-bottom: 20px; margin-bottom: 20px; }
+        .logo { max-width: 100px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
+        .total { text-align: right; font-size: 1.5rem; font-weight: bold; margin-top: 20px; }
+        .btn-print { 
+            display: block; 
+            margin: 20px auto; 
+            padding: 10px 20px; 
+            background: #00d4ff; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        @media print { .btn-print { display: none; } body { background: white; padding: 0; } .invoice-box { box-shadow: none; border: none; } }
+    </style>
+</head>
+<body>
+
+<div class="invoice-box" id="content">
+    <div class="header">
+        <div>
+            <h1>FLUSHRP MEDICAL SERVICES</h1>
+            <p>DOKUMENTACJA MEDYCZNA NR: #<span id="inv-id"></span></p>
+            <p id="inv-date"></p>
+        </div>
+        <img src="obraz_2026-05-02_212208153.png" class="logo">
+    </div>
+
+    <p><strong>PACJENT:</strong> <span id="inv-patient"></span></p>
+
+    <table>
+        <thead>
+            <tr><th>USŁUGA / LEK</th><th>ILOŚĆ</th><th>KOSZT</th></tr>
+        </thead>
+        <tbody id="inv-items"></tbody>
+    </table>
+
+    <div class="total">SUMA: $<span id="inv-total"></span></div>
+    
+    <div style="margin-top: 50px; font-size: 0.8rem;">
+        Podpis wystawiającego: __________________________<br>
+        <em>System FlushRP-EMS // Author: Prywatny Andrzej Duda</em>
+    </div>
+</div>
+
+<button class="btn-print" onclick="window.print()">ZAPISZ JAKO PDF / DRUKUJ</button>
+
+<script>
+    const data = JSON.parse(localStorage.getItem('lastInvoice'));
+    if(data) {
+        document.getElementById('inv-patient').innerText = data.patient;
+        document.getElementById('inv-total').innerText = data.total;
+        document.getElementById('inv-date').innerText = "Data: " + data.date;
+        document.getElementById('inv-id').innerText = Math.floor(Math.random() * 9000) + 1000;
+        
+        const tbody = document.getElementById('inv-items');
+        data.items.forEach(item => {
+            tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>$${item.price}</td></tr>`;
+        });
+    } else {
+        document.body.innerHTML = "<h1>Błąd: Brak danych faktury.</h1>";
+    }
+</script>
+
+</body>
+</html>
