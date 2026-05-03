@@ -2,60 +2,64 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Oficjalny Rachunek - FlushRP EMS</title>
+    <title>Rachunek - River City EMS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Roboto', sans-serif; background: #020c1b; color: white; padding: 20px; text-align: center; }
         .nav-bar { max-width: 700px; margin: 0 auto 20px; display: flex; gap: 10px; }
-        .btn { padding: 12px 20px; border: none; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; border-radius: 5px; text-decoration: none; transition: 0.3s; }
+        .btn { padding: 12px 20px; border: none; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; border-radius: 5px; text-decoration: none; }
         .btn-back { background: #1a2a44; color: #00d4ff; border: 1px solid #00d4ff; }
         .btn-copy { background: #00ff88; color: #020c1b; flex-grow: 1; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,136,0.3); }
-        #invoice-capture { background: white; color: black; width: 600px; margin: 0 auto; padding: 40px; text-align: left; border: 1px solid #ccc; }
+        #invoice-capture { background: white; color: black; width: 600px; margin: 0 auto; padding: 40px; text-align: left; }
         .header { display: flex; justify-content: space-between; border-bottom: 3px solid black; padding-bottom: 15px; margin-bottom: 20px; }
-        .logo { max-width: 80px; height: auto; }
         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
         th { border-bottom: 2px solid black; padding: 8px; text-align: left; }
         td { padding: 8px; border-bottom: 1px solid #eee; }
-        .total { text-align: right; font-size: 1.6rem; font-weight: bold; border-top: 3px solid black; padding-top: 10px; margin-top: 20px; }
-        .footer-note { margin-top: 40px; font-size: 0.7rem; color: #555; border-top: 1px dashed #999; padding-top: 10px; }
+        .total { text-align: right; font-size: 1.6rem; font-weight: bold; border-top: 3px solid black; padding-top: 10px; }
+        .footer { margin-top: 50px; border-top: 1px solid #000; padding-top: 15px; }
     </style>
 </head>
 <body>
 
 <div class="nav-bar">
     <a href="index.html" class="btn btn-back">⬅ POWRÓT</a>
-    <button class="btn btn-copy" onclick="copyAsImage()">📸 KOPIUJ JAKO OBRAZ (DO DISCORDA)</button>
+    <button class="btn btn-copy" onclick="copyAsImage()">📸 KOPIUJ OBRAZ DO DISCORDA</button>
 </div>
 
 <div id="invoice-capture">
     <div class="header">
         <div>
             <h1 style="margin:0; font-size: 1.2rem; font-family: 'Orbitron';">FLUSHRP MEDICAL SERVICES</h1>
-            <p style="margin:5px 0; font-size: 0.8rem;">RIVER CITY</p>
-            <p id="inv-id" style="margin:0; font-size: 0.7rem; color: #777;"></p>
+            <p style="margin:5px 0; font-size: 0.9rem;">RIVER CITY</p>
+            <p id="inv-id" style="font-size:0.7rem; color:#777; margin:0;"></p>
         </div>
-        <img src="obraz_2026-05-02_212208153.png" class="logo">
+        <img src="obraz_2026-05-02_212208153.png" style="max-width:80px;">
     </div>
 
-    <div style="margin-bottom: 20px; font-size: 0.9rem;">
+    <div style="margin-bottom: 20px;">
         <strong>DATA:</strong> <span id="inv-date"></span><br>
-        <strong>PACJENT:</strong> <span id="inv-patient"></span><br>
+        <strong>PACJENT:</strong> <span id="inv-patient"></span>
     </div>
 
     <table>
-        <thead>
-            <tr><th>OPIS USŁUGI</th><th style="text-align:right;">KOSZT</th></tr>
-        </thead>
+        <thead><tr><th>OPIS</th><th style="text-align:right;">KOSZT</th></tr></thead>
         <tbody id="inv-items"></tbody>
     </table>
 
     <div class="total">RAZEM: $<span id="inv-total"></span></div>
 
-    <div class="footer-note">
-        DOKUMENT WYGENEROWANY PRZEZ SYSTEM ZARZĄDZANIA FLUSHRP-EMS<br>
-        LOKALIZACJA: RIVER CITY // AUTHOR: PRYWATNY ANDRZEJ DUDA
+    <div class="footer">
+        <div style="display:flex; justify-content:space-between;">
+            <div>
+                <small>STATUS: ZATWIERDZONO</small><br>
+                <small>LOKALIZACJA: RIVER CITY</small>
+            </div>
+            <div style="text-align:right;">
+                <small>PODPIS RATOWNIKA:</small><br>
+                <strong id="inv-ems" style="font-family: 'Courier New';"></strong>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -63,29 +67,24 @@
     const data = JSON.parse(localStorage.getItem('lastInvoice'));
     if(data) {
         document.getElementById('inv-patient').innerText = data.patient;
+        document.getElementById('inv-ems').innerText = data.ems;
         document.getElementById('inv-total').innerText = data.total;
         document.getElementById('inv-date').innerText = data.date;
-        document.getElementById('inv-id').innerText = "REF: #" + Math.floor(Math.random() * 900000 + 100000);
+        document.getElementById('inv-id').innerText = "REF: #" + Math.floor(Math.random()*900000+100000);
         const list = document.getElementById('inv-items');
-        data.items.forEach(item => {
-            list.innerHTML += `<tr><td>${item.name} (x${item.qty})</td><td style="text-align:right;">$${item.price}</td></tr>`;
+        data.items.forEach(i => {
+            list.innerHTML += `<tr><td>${i.name} (x${i.qty})</td><td style="text-align:right;">$${i.price}</td></tr>`;
         });
     }
 
-    async function copyAsImage() {
-        const element = document.getElementById('invoice-capture');
+    function copyAsImage() {
         const btn = document.querySelector('.btn-copy');
         btn.innerText = "⏳ GENEROWANIE...";
-        html2canvas(element, { backgroundColor: "#ffffff", scale: 2 }).then(canvas => {
+        html2canvas(document.getElementById('invoice-capture'), {scale: 2}).then(canvas => {
             canvas.toBlob(blob => {
-                const item = new ClipboardItem({ "image/png": blob });
-                navigator.clipboard.write([item]).then(() => {
+                navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(() => {
                     btn.innerText = "✅ SKOPIOWANO!";
-                    btn.style.background = "#00ff88";
-                    setTimeout(() => {
-                        btn.innerText = "📸 KOPIUJ JAKO OBRAZ (DO DISCORDA)";
-                        btn.style.background = "";
-                    }, 2000);
+                    setTimeout(() => btn.innerText = "📸 KOPIUJ OBRAZ DO DISCORDA", 2000);
                 });
             });
         });
