@@ -473,5 +473,36 @@
         document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
     }, 400);
 </script>
+    // Zaktualizowana funkcja rysowania pól w adminie z przyciskiem resetu
+    function renderAdminControls() {
+        const controls = document.getElementById('admin-controls');
+        controls.innerHTML = `
+            <div style="grid-column: 1 / -1; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid gold;">
+                <strong style="color: gold; font-family: 'Orbitron'; font-size: 0.8rem;">ZMIANA MASOWA (%)</strong><br>
+                <input type="number" id="mass-percent" placeholder="np. 10 lub -10" style="width: 100px; margin-top:5px;">
+                <button onclick="applyMassChange()" style="background: gold; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px;">ZASTOSUJ %</button>
+                <button onclick="resetToDefault()" style="background: #ff4444; color: white; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px; margin-left: 10px;">RESETUJ DO DOMYŚLNYCH</button>
+            </div>
+        `;
+        
+        document.querySelectorAll('tr[data-id]').forEach(row => {
+            controls.innerHTML += `
+                <div style="font-size:0.7rem; border-bottom: 1px solid #333; padding: 5px 0;">
+                    ${row.dataset.name}:<br>
+                    <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+                </div>
+            `;
+        });
+    }
+
+    // NOWA FUNKCJA RESETOWANIA
+    function resetToDefault() {
+        if(confirm("Czy na pewno chcesz usunąć wszystkie własne ustawienia i przywrócić cennik fabryczny?")) {
+            localStorage.removeItem('ems_prices_v2'); // Usuwamy zapisane ceny z pamięci
+            alert("Przywrócono ceny domyślne. Strona zostanie odświeżona.");
+            location.reload(); // Odświeżamy, żeby wczytały się ceny z HTML
+        }
+    }
+</script>
 </body>
 </html>
