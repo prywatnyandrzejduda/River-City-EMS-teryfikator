@@ -1,356 +1,858 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlushRP-EMS - System Rozliczeniowy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-blue: #00d4ff;
-            --dark-blue: #0a192f;
-            --success-green: #00ff88;
-            --text-light: #e6f1ff;
-            --card-bg: rgba(16, 33, 65, 0.9);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlushRP-EMS - System Rozliczeniowy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --dark-blue: #0a192f;
+            --success-green: #00ff88;
+            --text-light: #e6f1ff;
+            --card-bg: rgba(16, 33, 65, 0.9);
+        }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #020c1b 0%, #0a192f 100%);
-            color: var(--text-light);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #020c1b 0%, #0a192f 100%);
+            color: var(--text-light);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            position: relative;
-        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
 
-        .admin-trigger {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            font-size: 10px;
-            opacity: 0.3;
-            cursor: pointer;
-            color: var(--primary-blue);
-        }
+        /* STYL PANELU ADMINA */
+        .admin-trigger {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 10px;
+            opacity: 0.3;
+            cursor: pointer;
+            color: var(--primary-blue);
+        }
+        .admin-panel {
+            display: none;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid gold;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
 
-        .admin-panel {
-            display: none;
-            background: rgba(0, 0, 0, 0.95);
-            border: 2px solid gold;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-            z-index: 1000;
-        }
+        .logo-container {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            text-align: right;
+        }
 
-        .logo-container {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            text-align: right;
-        }
+        .logo-img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 5px;
+            border: 1px solid var(--primary-blue);
+        }
 
-        .logo-img {
-            max-width: 100px;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            margin-bottom: 5px;
-            border: 1px solid var(--primary-blue);
-        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 10px;
+        }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 10px;
-        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-blue);
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-blue);
-            font-size: 3rem;
-            margin: 0;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-        }
+        .section-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        .section-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .section-header {
+            background: rgba(0, 212, 255, 0.15);
+            padding: 12px 20px;
+            font-weight: bold;
+            border-left: 5px solid var(--primary-blue);
+            margin: -20px -20px 15px -20px;
+            font-family: 'Orbitron';
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
 
-        .section-header {
-            background: rgba(0, 212, 255, 0.15);
-            padding: 12px 20px;
-            font-weight: bold;
-            border-left: 5px solid var(--primary-blue);
-            margin: -20px -20px 15px -20px;
-            font-family: 'Orbitron';
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        th, td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-        th, td {
-            padding: 10px 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        th {
+            font-size: 0.75rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        th {
-            font-size: 0.75rem;
-            color: var(--primary-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        input[type="number"], .data-input {
+            background: #010813;
+            border: 1px solid var(--primary-blue);
+            color: white;
+            padding: 6px;
+            border-radius: 4px;
+            outline: none;
+        }
 
-        input[type="number"], .data-input {
-            background: #010813;
-            border: 1px solid var(--primary-blue);
-            color: white;
-            padding: 6px;
-            border-radius: 4px;
-            outline: none;
-        }
+        .calc-qty { width: 55px; }
+        .data-input[type="text"] { width: 100%; box-sizing: border-box; }
 
-        .calc-qty { width: 55px; }
-        .data-input[type="text"] { width: 100%; box-sizing: border-box; }
+        .billing-summary {
+            position: sticky;
+            bottom: 20px;
+            background: linear-gradient(90deg, #00d4ff, #0056b3);
+            color: #020c1b;
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
+            z-index: 100;
+        }
 
-        .billing-summary {
-            position: sticky;
-            bottom: 20px;
-            background: linear-gradient(90deg, #00d4ff, #0056b3);
-            color: #020c1b;
-            padding: 20px 30px;
-            border-radius: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
-            z-index: 100;
-        }
+        .btn-action {
+            background: #020c1b;
+            color: var(--primary-blue);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
 
-        .btn-action {
-            background: #020c1b;
-            color: var(--primary-blue);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-        }
+        .btn-action:hover {
+            background: #0a192f;
+            box-shadow: 0 0 15px var(--primary-blue);
+        }
 
-        .btn-action:hover {
-            background: #0a192f;
-            box-shadow: 0 0 15px var(--primary-blue);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 1px;
-        }
-    </style>
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="admin-trigger" onclick="openAdmin()">ADMIN PANEL</div>
+    <div class="container">
+    <div class="admin-trigger" onclick="openAdmin()">ADMIN PANEL</div>
 
-        <div id="admin-panel" class="admin-panel">
-            <h3 style="font-family: 'Orbitron'; color: gold; margin-top: 0;">PANEL ZARZĄDZANIA CENAMI</h3>
-            
-            <div id="admin-controls" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                </div>
+    <div id="admin-panel" class="admin-panel">
+        <h3 style="font-family: 'Orbitron'; color: gold;">PANEL ZARZĄDZANIA CENAMI</h3>
+        <p style="font-size: 0.8rem;">Tutaj możesz zmienić stawkę dowolnej usługi. Po zapisaniu odśwież stronę.</p>
+        <div id="admin-controls" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            </div>
+        <button class="btn-action" style="margin-top: 20px; background: gold; color: black;" onclick="saveNewPrices()">ZAPISZ ZMIANY CEN</button>
+    </div>
 
-            <div style="margin-top: 25px; border-top: 1px solid #444; padding-top: 20px; display: flex; gap: 10px;">
-                <button class="btn-action" style="background: gold; color: black;" onclick="saveNewPrices()">ZAPISZ ZMIANY</button>
-                <button class="btn-action" style="background: #ff4444; color: white;" onclick="resetPrices()">RESETUJ DO DOMYŚLNYCH</button>
-                <button class="btn-action" style="background: #444; color: white;" onclick="document.getElementById('admin-panel').style.display='none'">ANULUJ</button>
-            </div>
-        </div>
+    <div class="logo-container">
+        <img src="obraz_2026-05-02_212208153.png" alt="FlushRP Logo" class="logo-img">
+    </div>
 
-        <div class="logo-container">
-            <img src="obraz_2026-05-02_212208153.png" alt="FlushRP Logo" class="logo-img">
-        </div>
+    <header>
+        <h1>FLUSHRP-EMS</h1>
+        <div style="font-size:0.85rem; margin-top:5px; color: var(--primary-blue);">CENTRAL BILLING SYSTEM | RIVER CITY</div>
+    </header>
 
-        <header>
-            <h1>FLUSHRP-EMS</h1>
-            <div style="font-size:0.85rem; margin-top:5px; color: var(--primary-blue);">CENTRAL BILLING SYSTEM | RIVER CITY</div>
-        </header>
+    <div class="section-card">
+        <div class="section-header">INFORMACJE O ZGŁOSZENIU</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <label style="font-size: 0.8rem; opacity: 0.8;">Pacjent (Imię i Nazwisko):</label><br>
+                <input type="text" id="patient-name" class="data-input" placeholder="Wprowadź dane...">
+            </div>
+            <div>
+                <label style="font-size: 0.8rem; opacity: 0.8;">Podpis Ratownika:</label><br>
+                <input type="text" id="ems-name" class="data-input" placeholder="Twoje imię i stopień...">
+            </div>
+        </div>
+    </div>
 
-        <div class="section-card">
-            <div class="section-header">INFORMACJE O ZGŁOSZENIU</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <label style="font-size: 0.8rem; opacity: 0.8;">Pacjent:</label><br>
-                    <input type="text" id="patient-name" class="data-input" placeholder="Imię i Nazwisko...">
-                </div>
-                <div>
-                    <label style="font-size: 0.8rem; opacity: 0.8;">Podpis Ratownika:</label><br>
-                    <input type="text" id="ems-name" class="data-input" placeholder="Twoje dane...">
-                </div>
-            </div>
-        </div>
+    <div class="section-card">
+        <div class="section-header">TRANSPORT I USŁUGI BAZOWE</div>
+        <table>
+            <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
+            <tbody id="table-transport">
+                <tr data-id="t1" data-name="Transport BLS" data-price="585"><td>Transport BLS (Podstawowy)</td><td class="price-display">$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t2" data-name="Transport ALS" data-price="950"><td>Transport ALS (Zaawansowany)</td><td class="price-display">$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t3" data-name="Transport Specjalny" data-price="1200"><td>Transport pod nadzorem (LSPD/Więzienny)</td><td class="price-display">$1200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t4" data-name="Transport Zwłok" data-price="1500"><td>Transport zwłok do kostnicy</td><td class="price-display">$1500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t5" data-name="Przebieg (Mile)" data-price="25"><td>Przebieg (Mile)</td><td class="price-display">$25.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="t6" data-name="Dopłata Nocna" data-price="300"><td>Dopłata Nocna / Weekendowa</td><td class="price-display">$300.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="section-card">
-            <div class="section-header">TRANSPORT I USŁUGI BAZOWE</div>
-            <table>
-                <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
-                <tbody>
-                    <tr data-id="t1" data-name="Transport BLS" data-price="585"><td>Transport BLS</td><td class="price-display">$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                    <tr data-id="t2" data-name="Transport ALS" data-price="950"><td>Transport ALS</td><td class="price-display">$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                    <tr data-id="t3" data-name="Transport Specjalny" data-price="1200"><td>Transport LSPD/Więzienny</td><td class="price-display">$1200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                    <tr data-id="t4" data-name="Transport Zwłok" data-price="1500"><td>Transport zwłok</td><td class="price-display">$1500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                    <tr data-id="t5" data-name="Przebieg (Mile)" data-price="25"><td>Przebieg (Mile)</td><td class="price-display">$25.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                    <tr data-id="t6" data-name="Dopłata Nocna" data-price="300"><td>Dopłata Nocna / Weekend</td><td class="price-display">$300.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="section-card">
+        <div class="section-header">PROCEDURY I DIAGNOSTYKA</div>
+        <table>
+            <thead><tr><th>Zabieg</th><th>Stawka</th><th>Wybór</th></tr></thead>
+            <tbody id="table-procedury">
+                <tr data-id="p1" data-name="EKG Pełne" data-price="135"><td>EKG 12-odprowadzeniowe</td><td class="price-display">$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p2" data-name="Monitorowanie Parametrów" data-price="200"><td>Stałe monitorowanie pacjenta</td><td class="price-display">$200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p3" data-name="Intubacja" data-price="450"><td>Intubacja dotchawicza / Rurka G-K</td><td class="price-display">$450.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p4" data-name="Defibrylacja" data-price="350"><td>Defibrylacja / Kardiowersja</td><td class="price-display">$350.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p5" data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV / IO)</td><td class="price-display">$110.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p6" data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru (Glikemia)</td><td class="price-display">$45.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p7" data-name="Tlenoterapia" data-price="150"><td>Podanie tlenu (Maska/Wąsy)</td><td class="price-display">$150.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p8" data-name="Odsysanie Dróg Oddechowych" data-price="180"><td>Odsysanie dróg oddechowych</td><td class="price-display">$180.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="billing-summary">
-            <h2 style="margin:0; font-family: 'Orbitron';">SUMA: <span id="total-amount">$0.00</span></h2>
-            <button class="btn-action" onclick="generateInvoice()">GENERUJ RACHUNEK</button>
-        </div>
+    <div class="section-card">
+        <div class="section-header">OPATRUNKI I STABILIZACJA</div>
+        <table>
+            <thead><tr><th>Materiał</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody id="table-opatrunki">
+                <tr data-id="o1" data-name="Zestaw Opatrunkowy" data-price="85"><td>Zestaw Gazy i Bandaży</td><td class="price-display">$85.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o2" data-name="Opatrunek Hemostatyczny" data-price="150"><td>Opatrunek na rany postrzałowe/krwotoki</td><td class="price-display">$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o3" data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td class="price-display">$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o4" data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna Kramer/Sam)</td><td class="price-display">$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o5" data-name="Kołnierz Szyjny" data-price="120"><td>Kołnierz ortopedyczny</td><td class="price-display">$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="o6" data-name="Kołdra Grzewcza" data-price="90"><td>Kołdra grzewcza (NRC / Aktywna)</td><td class="price-display">$90.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="o7" data-name="Pas Miedniczny" data-price="250"><td>Pas do stabilizacji miednicy</td><td class="price-display">$250.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
-        <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP 2026</footer>
-    </div>
+    <div class="section-card">
+        <div class="section-header">LEKI I FARMACOLOGIA</div>
+        <table>
+            <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody id="table-leki">
+                <tr data-id="l1" data-name="Adrenalina" data-price="110"><td>Adrenalina (Epinephrine 1mg)</td><td class="price-display">$110.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l2" data-name="Narcan" data-price="140"><td>Narcan (Przedawkowania)</td><td class="price-display">$140.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l3" data-name="Leki Przeciwbólowe" data-price="120"><td>Morfina / Fentanyl / Ketamina</td><td class="price-display">$120.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l4" data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza 500ml)</td><td class="price-display">$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l5" data-name="Leki Przeciwdrgawkowe" data-price="130"><td>Relanium / Midazolam</td><td class="price-display">$130.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l6" data-name="Glukoza 40%" data-price="60"><td>Glukoza 40% (Ampułka)</td><td class="price-display">$60.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
-<script>
-    // 1. ŁADOWANIE CEN Z PAMIĘCI
-    function loadPrices() {
+    <div class="billing-summary">
+        <h2 style="margin:0; font-family: 'Orbitron';">SUMA: <span id="total-amount">$0.00</span></h2>
+        <button class="btn-action" onclick="generateInvoice()">GENERUJ RACHUNEK</button>
+    </div>
+
+    <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP 2026</footer>
+</div>
+
+<script><script>
+
+    // ŁADOWANIE CEN Z PAMIĘCI
+
+    window.onload = function() {
+
         const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+
         if(savedPrices) {
+
             Object.keys(savedPrices).forEach(id => {
+
                 const row = document.querySelector(`tr[data-id="${id}"]`);
+
                 if(row) {
+
                     row.dataset.price = savedPrices[id];
-                    const display = row.querySelector('.price-display');
-                    if(display) display.innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+
                 }
+
             });
-        }
-    }
-    window.onload = loadPrices;
 
-    // 2. PANEL ADMINA
+        }
+
+    };
+
+
+
     function openAdmin() {
-        if(prompt("Hasło:") === "kcandrzej") {
+
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+
             const panel = document.getElementById('admin-panel');
+
             panel.style.display = 'block';
-            renderAdminControls();
+
+            const controls = document.getElementById('admin-controls');
+
+            controls.innerHTML = '';
+
+            
+
+            document.querySelectorAll('tr[data-id]').forEach(row => {
+
+                controls.innerHTML += `
+
+                    <div style="font-size:0.7rem;">
+
+                        ${row.dataset.name}:<br>
+
+                        <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+
+                    </div>
+
+                `;
+
+            });
+
             window.scrollTo(0,0);
+
+        } else {
+
+            alert("Błędne hasło!");
+
         }
+
     }
 
-    function renderAdminControls() {
-        const controls = document.getElementById('admin-controls');
-        controls.innerHTML = `
-            <div style="grid-column: 1 / -1; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid gold;">
-                <strong style="color: gold;">ZMIANA MASOWA (%)</strong><br>
-                <input type="number" id="mass-percent" placeholder="np. 10" style="width: 80px; margin-top:5px;">
-                <button onclick="applyMassChange()" style="background: gold; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px;">OK</button>
-            </div>
-        `;
-        document.querySelectorAll('tr[data-id]').forEach(row => {
-            controls.innerHTML += `
-                <div style="font-size:0.75rem; border-bottom: 1px solid #333; padding: 5px 0;">
-                    ${row.dataset.name}:<br>
-                    <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}" style="width:100px;">
-                </div>
-            `;
-        });
-    }
 
-    function applyMassChange() {
-        const pct = parseFloat(document.getElementById('mass-percent').value);
-        if(isNaN(pct)) return;
-        document.querySelectorAll('.new-price-input').forEach(input => {
-            let val = parseFloat(input.value);
-            input.value = Math.round(val + (val * (pct / 100)));
-        });
-    }
 
-    // 3. ZAPIS I RESET
     function saveNewPrices() {
+
         const newPrices = {};
+
         document.querySelectorAll('.new-price-input').forEach(input => {
+
             newPrices[input.dataset.target] = input.value;
+
         });
+
         localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
-        alert("Zapisano!");
+
+        alert("Ceny zapisane! Odświeżam stronę...");
+
         location.reload();
+
     }
 
-    function resetPrices() {
-        if(confirm("Czy na pewno chcesz przywrócić ceny fabryczne?")) {
-            localStorage.removeItem('ems_prices_v2');
-            alert("Zresetowano!");
-            location.reload();
-        }
-    }
 
-    // 4. LOGIKA RACHUNKU
+
     function generateInvoice() {
+
         let total = 0; let items = [];
+
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+
+
         document.querySelectorAll('.calc-check').forEach(i => {
+
             if(i.checked) {
+
                 let r = i.closest('tr');
+
                 total += parseFloat(r.dataset.price);
+
                 items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+
             }
+
         });
+
+
+
         document.querySelectorAll('.calc-qty').forEach(i => {
+
             let q = parseInt(i.value) || 0;
+
             if(q > 0) {
+
                 let r = i.closest('tr');
+
                 let p = q * parseFloat(r.dataset.price);
+
                 total += p;
+
                 items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
+
             }
+
         });
+
+
+
         localStorage.setItem('lastInvoice', JSON.stringify({
-            patient: document.getElementById('patient-name').value,
-            ems: document.getElementById('ems-name').value,
-            total: total.toFixed(2),
-            items: items,
-            date: new Date().toLocaleString()
+
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+
         }));
+
         window.location.href = 'rachunek.html';
+
     }
+
+
 
     setInterval(() => {
+
         let t = 0;
+
         document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+
         document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+
         document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
+
     }, 400);
+
+</script>
+
+    <script>
+
+    // ŁADOWANIE CEN Z PAMIĘCI
+
+    window.onload = function() {
+
+        const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+
+        if(savedPrices) {
+
+            Object.keys(savedPrices).forEach(id => {
+
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+
+                if(row) {
+
+                    row.dataset.price = savedPrices[id];
+
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+
+                }
+
+            });
+
+        }
+
+    };
+
+
+
+    function openAdmin() {
+
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+
+            const panel = document.getElementById('admin-panel');
+
+            panel.style.display = 'block';
+
+            renderAdminControls();
+
+            window.scrollTo(0,0);
+
+        } else {
+
+            alert("Błędne hasło!");
+
+        }
+
+    }
+
+
+
+    // Funkcja pomocnicza do rysowania pól w adminie
+
+    function renderAdminControls() {
+
+        const controls = document.getElementById('admin-controls');
+
+        controls.innerHTML = `
+
+            <div style="grid-column: 1 / -1; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid gold;">
+
+                <strong style="color: gold; font-family: 'Orbitron'; font-size: 0.8rem;">ZMIANA MASOWA (%)</strong><br>
+
+                <input type="number" id="mass-percent" placeholder="np. 10 lub -10" style="width: 100px; margin-top:5px;">
+
+                <button onclick="applyMassChange()" style="background: gold; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px;">ZASTOSUJ DLA WSZYSTKICH</button>
+
+                <p style="font-size: 0.6rem; color: #ccc; margin-top: 5px;">Wpisz 10, aby podnieść o 10%. Wpisz -10, aby obniżyć o 10%.</p>
+
+            </div>
+
+        `;
+
+        
+
+        document.querySelectorAll('tr[data-id]').forEach(row => {
+
+            controls.innerHTML += `
+
+                <div style="font-size:0.7rem; border-bottom: 1px solid #333; padding: 5px 0;">
+
+                    ${row.dataset.name}:<br>
+
+                    <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+
+    // FUNKCJA ZMIANY PROCENTOWEJ
+
+    function applyMassChange() {
+
+        const percent = parseFloat(document.getElementById('mass-percent').value);
+
+        if(isNaN(percent)) return alert("Wpisz poprawną liczbę procent!");
+
+
+
+        if(confirm(`Czy na pewno chcesz zmienić WSZYSTKIE ceny o ${percent}%?`)) {
+
+            document.querySelectorAll('.new-price-input').forEach(input => {
+
+                let currentVal = parseFloat(input.value);
+
+                let newVal = currentVal + (currentVal * (percent / 100));
+
+                input.value = Math.round(newVal); // Zaokrąglamy do pełnych dolarów
+
+            });
+
+        }
+
+    }
+
+
+
+    function saveNewPrices() {
+
+        const newPrices = {};
+
+        document.querySelectorAll('.new-price-input').forEach(input => {
+
+            newPrices[input.dataset.target] = input.value;
+
+        });
+
+        localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
+
+        alert("Ceny zapisane! Odświeżam stronę...");
+
+        location.reload();
+
+    }
+
+
+
+    function generateInvoice() {
+
+        let total = 0; let items = [];
+
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+
+
+        document.querySelectorAll('.calc-check').forEach(i => {
+
+            if(i.checked) {
+
+                let r = i.closest('tr');
+
+                total += parseFloat(r.dataset.price);
+
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+
+            }
+
+        });
+
+
+
+        document.querySelectorAll('.calc-qty').forEach(i => {
+
+            let q = parseInt(i.value) || 0;
+
+            if(q > 0) {
+
+                let r = i.closest('tr');
+
+                let p = q * parseFloat(r.dataset.price);
+
+                total += p;
+
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
+
+            }
+
+        });
+
+
+
+        localStorage.setItem('lastInvoice', JSON.stringify({
+
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+
+        }));
+
+        window.location.href = 'rachunek.html';
+
+    }
+
+
+
+    setInterval(() => {
+
+        let t = 0;
+
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+    }, 400);
+
+</script>
+
+</body>
+
+</html>    // ŁADOWANIE CEN Z PAMIĘCI
+    window.onload = function() {
+        const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+        if(savedPrices) {
+            Object.keys(savedPrices).forEach(id => {
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if(row) {
+                    row.dataset.price = savedPrices[id];
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+                }
+            });
+        }
+    };
+
+    function openAdmin() {
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+            const panel = document.getElementById('admin-panel');
+            panel.style.display = 'block';
+            const controls = document.getElementById('admin-controls');
+            controls.innerHTML = '';
+            
+            document.querySelectorAll('tr[data-id]').forEach(row => {
+                controls.innerHTML += `
+                    <div style="font-size:0.7rem;">
+                        ${row.dataset.name}:<br>
+                        <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+                    </div>
+                `;
+            });
+            window.scrollTo(0,0);
+        } else {
+            alert("Błędne hasło!");
+        }
+    }
+
+    function saveNewPrices() {
+        const newPrices = {};
+        document.querySelectorAll('.new-price-input').forEach(input => {
+            newPrices[input.dataset.target] = input.value;
+        });
+        localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
+        alert("Ceny zapisane! Odświeżam stronę...");
+        location.reload();
+    }
+
+    function generateInvoice() {
+        let total = 0; let items = [];
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+        document.querySelectorAll('.calc-check').forEach(i => {
+            if(i.checked) {
+                let r = i.closest('tr');
+                total += parseFloat(r.dataset.price);
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+            }
+        });
+
+        document.querySelectorAll('.calc-qty').forEach(i => {
+            let q = parseInt(i.value) || 0;
+            if(q > 0) {
+                let r = i.closest('tr');
+                let p = q * parseFloat(r.dataset.price);
+                total += p;
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
+            }
+        });
+
+        localStorage.setItem('lastInvoice', JSON.stringify({
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+        }));
+        window.location.href = 'rachunek.html';
+    }
+
+    setInterval(() => {
+        let t = 0;
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
+    }, 400);
+</script>
+    <script>
+    // ŁADOWANIE CEN Z PAMIĘCI
+    window.onload = function() {
+        const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+        if(savedPrices) {
+            Object.keys(savedPrices).forEach(id => {
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if(row) {
+                    row.dataset.price = savedPrices[id];
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+                }
+            });
+        }
+    };
+
+    function openAdmin() {
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+            const panel = document.getElementById('admin-panel');
+            panel.style.display = 'block';
+            renderAdminControls();
+            window.scrollTo(0,0);
+        } else {
+            alert("Błędne hasło!");
+        }
+    }
+
+    // Funkcja pomocnicza do rysowania pól w adminie
+    function renderAdminControls() {
+        const controls = document.getElementById('admin-controls');
+        controls.innerHTML = `
+            <div style="grid-column: 1 / -1; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid gold;">
+                <strong style="color: gold; font-family: 'Orbitron'; font-size: 0.8rem;">ZMIANA MASOWA (%)</strong><br>
+                <input type="number" id="mass-percent" placeholder="np. 10 lub -10" style="width: 100px; margin-top:5px;">
+                <button onclick="applyMassChange()" style="background: gold; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px;">ZASTOSUJ DLA WSZYSTKICH</button>
+                <p style="font-size: 0.6rem; color: #ccc; margin-top: 5px;">Wpisz 10, aby podnieść o 10%. Wpisz -10, aby obniżyć o 10%.</p>
+            </div>
+        `;
+        
+        document.querySelectorAll('tr[data-id]').forEach(row => {
+            controls.innerHTML += `
+                <div style="font-size:0.7rem; border-bottom: 1px solid #333; padding: 5px 0;">
+                    ${row.dataset.name}:<br>
+                    <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+                </div>
+            `;
+        });
+    }
+
+    // FUNKCJA ZMIANY PROCENTOWEJ
+    function applyMassChange() {
+        const percent = parseFloat(document.getElementById('mass-percent').value);
+        if(isNaN(percent)) return alert("Wpisz poprawną liczbę procent!");
+
+        if(confirm(`Czy na pewno chcesz zmienić WSZYSTKIE ceny o ${percent}%?`)) {
+            document.querySelectorAll('.new-price-input').forEach(input => {
+                let currentVal = parseFloat(input.value);
+                let newVal = currentVal + (currentVal * (percent / 100));
+                input.value = Math.round(newVal); // Zaokrąglamy do pełnych dolarów
+            });
+        }
+    }
+
+    function saveNewPrices() {
+        const newPrices = {};
+        document.querySelectorAll('.new-price-input').forEach(input => {
+            newPrices[input.dataset.target] = input.value;
+        });
+        localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
+        alert("Ceny zapisane! Odświeżam stronę...");
+        location.reload();
+    }
+
+    function generateInvoice() {
+        let total = 0; let items = [];
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+        document.querySelectorAll('.calc-check').forEach(i => {
+            if(i.checked) {
+                let r = i.closest('tr');
+                total += parseFloat(r.dataset.price);
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+            }
+        });
+
+        document.querySelectorAll('.calc-qty').forEach(i => {
+            let q = parseInt(i.value) || 0;
+            if(q > 0) {
+                let r = i.closest('tr');
+                let p = q * parseFloat(r.dataset.price);
+                total += p;
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
+            }
+        });
+
+        localStorage.setItem('lastInvoice', JSON.stringify({
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+        }));
+        window.location.href = 'rachunek.html';
+    }
+
+    setInterval(() => {
+        let t = 0;
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
+    }, 400);
 </script>
 </body>
-</html>
+</html>             
