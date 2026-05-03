@@ -365,5 +365,113 @@
         document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
     }, 400);
 </script>
+    <script>
+    // ŁADOWANIE CEN Z PAMIĘCI
+    window.onload = function() {
+        const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+        if(savedPrices) {
+            Object.keys(savedPrices).forEach(id => {
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if(row) {
+                    row.dataset.price = savedPrices[id];
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+                }
+            });
+        }
+    };
+
+    function openAdmin() {
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+            const panel = document.getElementById('admin-panel');
+            panel.style.display = 'block';
+            renderAdminControls();
+            window.scrollTo(0,0);
+        } else {
+            alert("Błędne hasło!");
+        }
+    }
+
+    // Funkcja pomocnicza do rysowania pól w adminie
+    function renderAdminControls() {
+        const controls = document.getElementById('admin-controls');
+        controls.innerHTML = `
+            <div style="grid-column: 1 / -1; background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid gold;">
+                <strong style="color: gold; font-family: 'Orbitron'; font-size: 0.8rem;">ZMIANA MASOWA (%)</strong><br>
+                <input type="number" id="mass-percent" placeholder="np. 10 lub -10" style="width: 100px; margin-top:5px;">
+                <button onclick="applyMassChange()" style="background: gold; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px;">ZASTOSUJ DLA WSZYSTKICH</button>
+                <p style="font-size: 0.6rem; color: #ccc; margin-top: 5px;">Wpisz 10, aby podnieść o 10%. Wpisz -10, aby obniżyć o 10%.</p>
+            </div>
+        `;
+        
+        document.querySelectorAll('tr[data-id]').forEach(row => {
+            controls.innerHTML += `
+                <div style="font-size:0.7rem; border-bottom: 1px solid #333; padding: 5px 0;">
+                    ${row.dataset.name}:<br>
+                    <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+                </div>
+            `;
+        });
+    }
+
+    // FUNKCJA ZMIANY PROCENTOWEJ
+    function applyMassChange() {
+        const percent = parseFloat(document.getElementById('mass-percent').value);
+        if(isNaN(percent)) return alert("Wpisz poprawną liczbę procent!");
+
+        if(confirm(`Czy na pewno chcesz zmienić WSZYSTKIE ceny o ${percent}%?`)) {
+            document.querySelectorAll('.new-price-input').forEach(input => {
+                let currentVal = parseFloat(input.value);
+                let newVal = currentVal + (currentVal * (percent / 100));
+                input.value = Math.round(newVal); // Zaokrąglamy do pełnych dolarów
+            });
+        }
+    }
+
+    function saveNewPrices() {
+        const newPrices = {};
+        document.querySelectorAll('.new-price-input').forEach(input => {
+            newPrices[input.dataset.target] = input.value;
+        });
+        localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
+        alert("Ceny zapisane! Odświeżam stronę...");
+        location.reload();
+    }
+
+    function generateInvoice() {
+        let total = 0; let items = [];
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+        document.querySelectorAll('.calc-check').forEach(i => {
+            if(i.checked) {
+                let r = i.closest('tr');
+                total += parseFloat(r.dataset.price);
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+            }
+        });
+
+        document.querySelectorAll('.calc-qty').forEach(i => {
+            let q = parseInt(i.value) || 0;
+            if(q > 0) {
+                let r = i.closest('tr');
+                let p = q * parseFloat(r.dataset.price);
+                total += p;
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
+            }
+        });
+
+        localStorage.setItem('lastInvoice', JSON.stringify({
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+        }));
+        window.location.href = 'rachunek.html';
+    }
+
+    setInterval(() => {
+        let t = 0;
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
+    }, 400);
+</script>
 </body>
 </html>
