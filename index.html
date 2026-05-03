@@ -35,11 +35,54 @@
             position: relative;
         }
 
-        .logo-container { position: absolute; top: 25px; right: 25px; text-align: right; }
-        .logo-img { max-width: 100px; height: auto; border-radius: 8px; display: block; border: 1px solid var(--primary-blue); }
+        /* STYL PANELU ADMINA */
+        .admin-trigger {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 10px;
+            opacity: 0.3;
+            cursor: pointer;
+            color: var(--primary-blue);
+        }
+        .admin-panel {
+            display: none;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid gold;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
 
-        header { text-align: center; margin-bottom: 40px; padding-top: 10px; }
-        h1 { font-family: 'Orbitron', sans-serif; color: var(--primary-blue); font-size: 3rem; margin: 0; text-shadow: 0 0 20px rgba(0, 212, 255, 0.6); }
+        .logo-container {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            text-align: right;
+        }
+
+        .logo-img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 5px;
+            border: 1px solid var(--primary-blue);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 10px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-blue);
+            font-size: 3rem;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        }
 
         .section-card {
             background: rgba(255, 255, 255, 0.04);
@@ -61,9 +104,23 @@
             font-size: 0.9rem;
         }
 
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 15px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        th { font-size: 0.75rem; color: var(--primary-blue); text-transform: uppercase; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            font-size: 0.75rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         input[type="number"], .data-input {
             background: #010813;
@@ -74,46 +131,62 @@
             outline: none;
         }
 
-        .admin-panel { display: none; border: 2px dashed var(--primary-blue); padding: 20px; margin-bottom: 20px; background: rgba(0,0,0,0.8); }
-        .modifier-btn {
-            padding: 8px 15px;
-            border: 1px solid var(--primary-blue);
-            background: transparent;
-            color: var(--primary-blue);
-            cursor: pointer;
-            font-family: 'Orbitron';
-            font-size: 0.7rem;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-        .modifier-btn.active { background: var(--primary-blue); color: #020c1b; }
+        .calc-qty { width: 55px; }
+        .data-input[type="text"] { width: 100%; box-sizing: border-box; }
 
         .billing-summary {
-            position: sticky; bottom: 20px;
+            position: sticky;
+            bottom: 20px;
             background: linear-gradient(90deg, #00d4ff, #0056b3);
-            color: #020c1b; padding: 20px 30px; border-radius: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 30px; box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
+            color: #020c1b;
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
             z-index: 100;
         }
 
         .btn-action {
-            background: #020c1b; color: var(--primary-blue);
-            border: none; padding: 15px 30px; border-radius: 8px;
-            font-weight: bold; cursor: pointer; text-transform: uppercase;
+            background: #020c1b;
+            color: var(--primary-blue);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
             font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .btn-action:hover {
+            background: #0a192f;
+            box-shadow: 0 0 15px var(--primary-blue);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+    <div class="admin-trigger" onclick="openAdmin()">ADMIN PANEL</div>
 
-<div class="container">
-    <div style="font-size: 0.7rem; color: gray; cursor: pointer;" onclick="toggleAdmin()">⚙️ PANEL ADMINA</div>
-    
-    <div id="admin-section" class="admin-panel">
-        <h3 style="font-family: 'Orbitron'; color: var(--primary-blue);">ZARZĄDZANIE CENAMI</h3>
-        <div id="admin-prices-list"></div>
-        <button class="modifier-btn" style="margin-top:10px" onclick="saveAdminPrices()">ZAPISZ NOWY CENNIK</button>
+    <div id="admin-panel" class="admin-panel">
+        <h3 style="font-family: 'Orbitron'; color: gold;">PANEL ZARZĄDZANIA CENAMI</h3>
+        <p style="font-size: 0.8rem;">Tutaj możesz zmienić stawkę dowolnej usługi. Po zapisaniu odśwież stronę.</p>
+        <div id="admin-controls" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            </div>
+        <button class="btn-action" style="margin-top: 20px; background: gold; color: black;" onclick="saveNewPrices()">ZAPISZ ZMIANY CEN</button>
     </div>
 
     <div class="logo-container">
@@ -126,38 +199,79 @@
     </header>
 
     <div class="section-card">
-        <div class="section-header">INFORMACJE I MODYFIKATORY</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
-            <input type="text" id="patient-name" class="data-input" placeholder="Pacjent...">
-            <input type="text" id="ems-name" class="data-input" placeholder="Ratownik...">
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <button class="modifier-btn" id="mod-09" onclick="setModifier(0.9)">ZNIŻKA -10%</button>
-            <button class="modifier-btn active" id="mod-10" onclick="setModifier(1.0)">STANDARD</button>
-            <button class="modifier-btn" id="mod-11" onclick="setModifier(1.1)">WZROST +10%</button>
+        <div class="section-header">INFORMACJE O ZGŁOSZENIU</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <label style="font-size: 0.8rem; opacity: 0.8;">Pacjent (Imię i Nazwisko):</label><br>
+                <input type="text" id="patient-name" class="data-input" placeholder="Wprowadź dane...">
+            </div>
+            <div>
+                <label style="font-size: 0.8rem; opacity: 0.8;">Podpis Ratownika:</label><br>
+                <input type="text" id="ems-name" class="data-input" placeholder="Twoje imię i stopień...">
+            </div>
         </div>
     </div>
+
     <div class="section-card">
         <div class="section-header">TRANSPORT I USŁUGI BAZOWE</div>
-        <table id="table-transport">
+        <table>
             <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
-            <tbody id="body-transport"></tbody>
+            <tbody id="table-transport">
+                <tr data-id="t1" data-name="Transport BLS" data-price="585"><td>Transport BLS (Podstawowy)</td><td class="price-display">$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t2" data-name="Transport ALS" data-price="950"><td>Transport ALS (Zaawansowany)</td><td class="price-display">$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t3" data-name="Transport Specjalny" data-price="1200"><td>Transport pod nadzorem (LSPD/Więzienny)</td><td class="price-display">$1200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t4" data-name="Transport Zwłok" data-price="1500"><td>Transport zwłok do kostnicy</td><td class="price-display">$1500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="t5" data-name="Przebieg (Mile)" data-price="25"><td>Przebieg (Mile)</td><td class="price-display">$25.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="t6" data-name="Dopłata Nocna" data-price="300"><td>Dopłata Nocna / Weekendowa</td><td class="price-display">$300.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
         </table>
     </div>
 
     <div class="section-card">
         <div class="section-header">PROCEDURY I DIAGNOSTYKA</div>
-        <table id="table-procedury">
+        <table>
             <thead><tr><th>Zabieg</th><th>Stawka</th><th>Wybór</th></tr></thead>
-            <tbody id="body-procedury"></tbody>
+            <tbody id="table-procedury">
+                <tr data-id="p1" data-name="EKG Pełne" data-price="135"><td>EKG 12-odprowadzeniowe</td><td class="price-display">$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p2" data-name="Monitorowanie Parametrów" data-price="200"><td>Stałe monitorowanie pacjenta</td><td class="price-display">$200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p3" data-name="Intubacja" data-price="450"><td>Intubacja dotchawicza / Rurka G-K</td><td class="price-display">$450.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p4" data-name="Defibrylacja" data-price="350"><td>Defibrylacja / Kardiowersja</td><td class="price-display">$350.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p5" data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV / IO)</td><td class="price-display">$110.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p6" data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru (Glikemia)</td><td class="price-display">$45.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p7" data-name="Tlenoterapia" data-price="150"><td>Podanie tlenu (Maska/Wąsy)</td><td class="price-display">$150.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="p8" data-name="Odsysanie Dróg Oddechowych" data-price="180"><td>Odsysanie dróg oddechowych</td><td class="price-display">$180.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
         </table>
     </div>
 
     <div class="section-card">
-        <div class="section-header">OPATRUNKI I LEKI</div>
-        <table id="table-med">
-            <thead><tr><th>Nazwa</th><th>Stawka</th><th>Ilość</th></tr></thead>
-            <tbody id="body-med"></tbody>
+        <div class="section-header">OPATRUNKI I STABILIZACJA</div>
+        <table>
+            <thead><tr><th>Materiał</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody id="table-opatrunki">
+                <tr data-id="o1" data-name="Zestaw Opatrunkowy" data-price="85"><td>Zestaw Gazy i Bandaży</td><td class="price-display">$85.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o2" data-name="Opatrunek Hemostatyczny" data-price="150"><td>Opatrunek na rany postrzałowe/krwotoki</td><td class="price-display">$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o3" data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td class="price-display">$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o4" data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna Kramer/Sam)</td><td class="price-display">$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="o5" data-name="Kołnierz Szyjny" data-price="120"><td>Kołnierz ortopedyczny</td><td class="price-display">$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="o6" data-name="Kołdra Grzewcza" data-price="90"><td>Kołdra grzewcza (NRC / Aktywna)</td><td class="price-display">$90.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-id="o7" data-name="Pas Miedniczny" data-price="250"><td>Pas do stabilizacji miednicy</td><td class="price-display">$250.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">LEKI I FARMACOLOGIA</div>
+        <table>
+            <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody id="table-leki">
+                <tr data-id="l1" data-name="Adrenalina" data-price="110"><td>Adrenalina (Epinephrine 1mg)</td><td class="price-display">$110.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l2" data-name="Narcan" data-price="140"><td>Narcan (Przedawkowania)</td><td class="price-display">$140.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l3" data-name="Leki Przeciwbólowe" data-price="120"><td>Morfina / Fentanyl / Ketamina</td><td class="price-display">$120.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l4" data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza 500ml)</td><td class="price-display">$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l5" data-name="Leki Przeciwdrgawkowe" data-price="130"><td>Relanium / Midazolam</td><td class="price-display">$130.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-id="l6" data-name="Glukoza 40%" data-price="60"><td>Glukoza 40% (Ampułka)</td><td class="price-display">$60.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+            </tbody>
         </table>
     </div>
 
@@ -168,97 +282,88 @@
 
     <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP 2026</footer>
 </div>
+
 <script>
-    // Baza danych usług
-    const defaultServices = [
-        { cat: 'transport', name: "Transport BLS", price: 585, type: 'check' },
-        { cat: 'transport', name: "Transport ALS", price: 950, type: 'check' },
-        { cat: 'transport', name: "Transport Specjalny", price: 1200, type: 'check' },
-        { cat: 'transport', name: "Przebieg (Mile)", price: 25, type: 'qty' },
-        { cat: 'proc', name: "EKG Pełne", price: 135, type: 'check' },
-        { cat: 'proc', name: "Intubacja", price: 450, type: 'check' },
-        { cat: 'proc', name: "Dostęp IV", price: 110, type: 'check' },
-        { cat: 'proc', name: "Pomiar Glikemii", price: 45, type: 'check' },
-        { cat: 'med', name: "Zestaw Opatrunkowy", price: 85, type: 'qty' },
-        { cat: 'med', name: "Adrenalina", price: 110, type: 'qty' },
-        { cat: 'med', name: "Narcan", price: 140, type: 'qty' },
-        { cat: 'med', name: "Leki Przeciwbólowe", price: 120, type: 'qty' }
-    ];
+    // ŁADOWANIE CEN Z PAMIĘCI
+    window.onload = function() {
+        const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
+        if(savedPrices) {
+            Object.keys(savedPrices).forEach(id => {
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if(row) {
+                    row.dataset.price = savedPrices[id];
+                    row.querySelector('.price-display').innerText = '$' + parseFloat(savedPrices[id]).toFixed(2);
+                }
+            });
+        }
+    };
 
-    let services = JSON.parse(localStorage.getItem('ems_prices')) || defaultServices;
-    let activeModifier = 1.0;
-
-    function renderTables() {
-        const bodies = { transport: 'body-transport', proc: 'body-procedury', med: 'body-med' };
-        Object.values(bodies).forEach(id => document.getElementById(id).innerHTML = '');
-        
-        const adminList = document.getElementById('admin-prices-list');
-        adminList.innerHTML = '';
-
-        services.forEach((s, idx) => {
-            const input = s.type === 'check' 
-                ? `<input type="checkbox" class="calc-input" data-idx="${idx}">`
-                : `<input type="number" class="calc-input calc-qty" data-idx="${idx}" value="0" min="0">`;
+    function openAdmin() {
+        if(prompt("Podaj hasło admina:") === "kcandrzej") {
+            const panel = document.getElementById('admin-panel');
+            panel.style.display = 'block';
+            const controls = document.getElementById('admin-controls');
+            controls.innerHTML = '';
             
-            document.getElementById(bodies[s.cat]).innerHTML += `
-                <tr><td>${s.name}</td><td>$${s.price}</td><td>${input}</td></tr>`;
-            
-            adminList.innerHTML += `<div style="margin-bottom:5px">${s.name}: <input type="number" class="admin-val" data-idx="${idx}" value="${s.price}"></div>`;
-        });
-    }
-
-    function setModifier(val) {
-        activeModifier = val;
-        document.querySelectorAll('.modifier-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('mod-' + val.toString().replace('.','')).classList.add('active');
-    }
-
-    function toggleAdmin() {
-        if(prompt("Hasło:") === "admin123") {
-            const el = document.getElementById('admin-section');
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            document.querySelectorAll('tr[data-id]').forEach(row => {
+                controls.innerHTML += `
+                    <div style="font-size:0.7rem;">
+                        ${row.dataset.name}:<br>
+                        <input type="number" class="new-price-input" data-target="${row.dataset.id}" value="${row.dataset.price}">
+                    </div>
+                `;
+            });
+            window.scrollTo(0,0);
+        } else {
+            alert("Błędne hasło!");
         }
     }
 
-    function saveAdminPrices() {
-        document.querySelectorAll('.admin-val').forEach(i => {
-            services[i.dataset.idx].price = parseFloat(i.value);
+    function saveNewPrices() {
+        const newPrices = {};
+        document.querySelectorAll('.new-price-input').forEach(input => {
+            newPrices[input.dataset.target] = input.value;
         });
-        localStorage.setItem('ems_prices', JSON.stringify(services));
-        renderTables();
-        alert("Zapisano!");
+        localStorage.setItem('ems_prices_v2', JSON.stringify(newPrices));
+        alert("Ceny zapisane! Odświeżam stronę...");
+        location.reload();
     }
 
     function generateInvoice() {
         let total = 0; let items = [];
-        document.querySelectorAll('.calc-input').forEach(i => {
-            let val = i.type === 'checkbox' ? (i.checked ? 1 : 0) : (parseInt(i.value) || 0);
-            if(val > 0) {
-                let s = services[i.dataset.idx];
-                let finalPrice = val * s.price * activeModifier;
-                total += finalPrice;
-                items.push({name: s.name, price: finalPrice.toFixed(2), qty: val});
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
+
+        document.querySelectorAll('.calc-check').forEach(i => {
+            if(i.checked) {
+                let r = i.closest('tr');
+                total += parseFloat(r.dataset.price);
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
+            }
+        });
+
+        document.querySelectorAll('.calc-qty').forEach(i => {
+            let q = parseInt(i.value) || 0;
+            if(q > 0) {
+                let r = i.closest('tr');
+                let p = q * parseFloat(r.dataset.price);
+                total += p;
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
             }
         });
 
         localStorage.setItem('lastInvoice', JSON.stringify({
-            patient: document.getElementById('patient-name').value || "NIEZNANY",
-            ems: document.getElementById('ems-name').value || "RATOWNIK",
-            total: total.toFixed(2), items: items, date: new Date().toLocaleString()
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
         }));
         window.location.href = 'rachunek.html';
     }
 
     setInterval(() => {
         let t = 0;
-        document.querySelectorAll('.calc-input').forEach(i => {
-            let val = i.type === 'checkbox' ? (i.checked ? 1 : 0) : (parseInt(i.value) || 0);
-            t += val * services[i.dataset.idx].price;
-        });
-        document.getElementById('total-amount').innerText = '$' + (t * activeModifier).toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
     }, 400);
-
-    renderTables();
 </script>
 </body>
 </html>
