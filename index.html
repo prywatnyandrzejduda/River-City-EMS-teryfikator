@@ -9,7 +9,6 @@
         :root {
             --primary-blue: #00d4ff;
             --dark-blue: #0a192f;
-            --accent-red: #ff4d4d;
             --success-green: #00ff88;
             --text-light: #e6f1ff;
             --card-bg: rgba(16, 33, 65, 0.8);
@@ -51,12 +50,6 @@
             margin-bottom: 5px;
         }
 
-        .author-tag {
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.4);
-            font-style: italic;
-        }
-
         header {
             text-align: center;
             margin-bottom: 40px;
@@ -76,6 +69,7 @@
             border-radius: 10px;
             margin-bottom: 25px;
             overflow: hidden;
+            padding: 20px;
         }
 
         .section-header {
@@ -83,6 +77,7 @@
             padding: 15px 20px;
             font-weight: bold;
             border-left: 4px solid var(--primary-blue);
+            margin: -20px -20px 20px -20px;
         }
 
         table {
@@ -102,7 +97,7 @@
             text-transform: uppercase;
         }
 
-        input[type="number"], .patient-input {
+        input[type="number"], .data-input {
             background: #020c1b;
             border: 1px solid var(--primary-blue);
             color: white;
@@ -136,7 +131,6 @@
             transition: all 0.3s;
             text-transform: uppercase;
             font-family: 'Orbitron', sans-serif;
-            margin-left: 10px;
         }
 
         footer {
@@ -144,7 +138,6 @@
             margin-top: 30px;
             font-size: 0.7rem;
             color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -153,123 +146,95 @@
 <div class="container">
     <div class="logo-container">
         <img src="obraz_2026-05-02_212208153.png" alt="FlushRP Logo" class="logo-img">
-        <div class="author-tag">Author: Prywatny Andrzej Duda</div>
     </div>
 
     <header>
         <h1>FlushRP-EMS</h1>
-        <div style="display:flex; justify-content:center; gap:20px; margin-top:10px; font-size:0.8rem;">
-            <span>System: <span style="color:var(--success-green)">POŁĄCZONO</span></span>
-            <span>Region: River City</span>
-        </div>
+        <div style="font-size:0.8rem; margin-top:10px;">REGION: RIVER CITY</div>
     </header>
 
-    <div class="section-card" style="padding: 20px;">
-        <label>Imię i Nazwisko Pacjenta: </label>
-        <input type="text" id="patient-name" class="patient-input" placeholder="Wprowadź dane..." style="width: 300px;">
+    <div class="section-card">
+        <div class="section-header">DANE OPERACYJNE</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <label>Pacjent:</label><br>
+                <input type="text" id="patient-name" class="data-input" placeholder="Imię i Nazwisko..." style="width: 100%;">
+            </div>
+            <div>
+                <label>Ratownik Wystawiający:</label><br>
+                <input type="text" id="ems-name" class="data-input" placeholder="Twój podpis..." style="width: 100%;">
+            </div>
+        </div>
     </div>
 
     <div class="section-card">
-        <div class="section-header">USŁUGI TRANSPORTOWE</div>
+        <div class="section-header">USŁUGI I PROCEDURY</div>
         <table>
-            <thead><tr><th>Rodzaj Usługi</th><th>Stawka</th><th>Wybór / Ilość</th></tr></thead>
+            <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Transport BLS" data-price="585"><td>Transport BLS (Podstawowy)</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport ALS Level 1" data-price="855"><td>Transport ALS Level 1</td><td>$855.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport ALS Level 2" data-price="1125"><td>Transport ALS Level 2 (Krytyczny)</td><td>$1125.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport SCT" data-price="1620"><td>Transport SCT (Specjalistyczny)</td><td>$1620.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Pomoc na miejscu" data-price="225"><td>Pomoc na miejscu (Bez transportu)</td><td>$225.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport BLS" data-price="585"><td>Transport BLS</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport ALS L1" data-price="855"><td>Transport ALS Level 1</td><td>$855.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport ALS L2" data-price="1125"><td>Transport ALS Level 2</td><td>$1125.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport SCT" data-price="1620"><td>Transport SCT</td><td>$1620.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Przebieg (Mile)" data-price="22.5"><td>Przebieg (Mile)</td><td>$22.50</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Dopłata Nocna" data-price="135"><td>Dopłata nocna/weekendowa</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-card">
-        <div class="section-header">PROCEDURY MEDYCZNE</div>
-        <table>
-            <thead><tr><th>Procedura / Zabieg</th><th>Stawka</th><th>Wybór</th></tr></thead>
-            <tbody>
                 <tr data-name="EKG 12-odprowadzeniowe" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Intubacja dotchawicza" data-price="405"><td>Intubacja dotchawicza</td><td>$405.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Dostęp doszpikowy (IO)" data-price="288"><td>Dostęp doszpikowy (IO)</td><td>$288.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Dostęp dożylny (IV)" data-price="108"><td>Dostęp dożylny (IV)</td><td>$108.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Konikotomia" data-price="540"><td>Konikotomia ratunkowa</td><td>$540.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Pomiar glikemii" data-price="40.5"><td>Pomiar glikemii</td><td>$40.50</td><td><input type="checkbox" class="calc-check"></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section-card">
-        <div class="section-header">LEKI I FARMACEUTYKI</div>
-        <table>
-            <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
-            <tbody>
-                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Narcan" data-price="135"><td>Narcan (Naloxon)</td><td>$135.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Intubacja" data-price="405"><td>Intubacja dotchawicza</td><td>$405.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Defibrylacja" data-price="315"><td>Defibrylacja</td><td>$315.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
                 <tr data-name="Fentanyl" data-price="117"><td>Fentanyl</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Ketamina" data-price="180"><td>Ketamina</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Glukoza 50%" data-price="90"><td>Glukoza 50% (D50)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="billing-summary">
-        <div class="total-info">
-            <h2 style="margin:0; font-size:1rem;">SUMA: <span id="total-amount">$0.00</span></h2>
-        </div>
+        <h2 style="margin:0;">SUMA: <span id="total-amount">$0.00</span></h2>
         <button class="btn-action" onclick="generateInvoice()">GENERUJ RACHUNEK</button>
     </div>
 
-    <footer>SECURE BILLING INTERFACE // FLUSHRP-EMS</footer>
+    <footer>RIVER CITY EMS BILLING SYSTEM</footer>
 </div>
 
 <script>
     function generateInvoice() {
         let total = 0;
         let items = [];
-        const patient = document.getElementById('patient-name').value || "NIEZNANY PACJENT";
+        const patient = document.getElementById('patient-name').value || "NIEZNANY";
+        const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
 
-        document.querySelectorAll('.calc-check').forEach(item => {
-            if (item.checked) {
-                const row = item.closest('tr');
-                const price = parseFloat(row.dataset.price);
-                total += price;
-                items.push({ name: row.dataset.name, price: price.toFixed(2), qty: 1 });
+        document.querySelectorAll('.calc-check').forEach(i => {
+            if(i.checked) {
+                let r = i.closest('tr');
+                total += parseFloat(r.dataset.price);
+                items.push({name: r.dataset.name, price: r.dataset.price, qty: 1});
             }
         });
 
-        document.querySelectorAll('.calc-qty').forEach(item => {
-            const count = parseInt(item.value) || 0;
-            if (count > 0) {
-                const row = item.closest('tr');
-                const price = parseFloat(row.dataset.price);
-                total += (count * price);
-                items.push({ name: row.dataset.name, price: (count * price).toFixed(2), qty: count });
+        document.querySelectorAll('.calc-qty').forEach(i => {
+            let q = parseInt(i.value) || 0;
+            if(q > 0) {
+                let r = i.closest('tr');
+                let p = q * parseFloat(r.dataset.price);
+                total += p;
+                items.push({name: r.dataset.name, price: p.toFixed(2), qty: q});
             }
         });
 
-        // Przesyłanie danych przez LocalStorage do drugiego pliku
-        const invoiceData = {
+        localStorage.setItem('lastInvoice', JSON.stringify({
             patient: patient,
+            ems: ems,
             total: total.toFixed(2),
             items: items,
             date: new Date().toLocaleString()
-        };
-        localStorage.setItem('lastInvoice', JSON.stringify(invoiceData));
-        
-        // Przekierowanie do pliku z fakturą
+        }));
         window.location.href = 'rachunek.html';
     }
 
-    // Proste przeliczanie w locie dla widoku
     setInterval(() => {
-        let currentTotal = 0;
-        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) currentTotal += parseFloat(i.closest('tr').dataset.price); });
-        document.querySelectorAll('.calc-qty').forEach(i => { currentTotal += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
-        document.getElementById('total-amount').innerText = '$' + currentTotal.toLocaleString('en-US', {minimumFractionDigits: 2});
+        let t = 0;
+        document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
+        document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
+        document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
     }, 500);
 </script>
-
 </body>
 </html>
