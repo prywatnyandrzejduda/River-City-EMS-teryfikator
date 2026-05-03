@@ -166,22 +166,56 @@
             </div>
         </div>
     </div>
-
     <div class="section-card">
-        <div class="section-header">USŁUGI I PROCEDURY</div>
+        <div class="section-header">TRANSPORT I PODSTAWA</div>
         <table>
             <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Transport BLS" data-price="585"><td>Transport BLS</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport ALS L1" data-price="855"><td>Transport ALS Level 1</td><td>$855.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport ALS L2" data-price="1125"><td>Transport ALS Level 2</td><td>$1125.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport SCT" data-price="1620"><td>Transport SCT</td><td>$1620.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport BLS" data-price="585"><td>Transport BLS (Podstawowy)</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport ALS" data-price="950"><td>Transport ALS (Zaawansowany)</td><td>$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport HEMS" data-price="2500"><td>Transport Lotniczy (HEMS)</td><td>$2500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Przebieg (Mile)" data-price="22.5"><td>Przebieg (Mile)</td><td>$22.50</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="EKG 12-odprowadzeniowe" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Dopłata Nocna" data-price="200"><td>Dopłata Nocna / Weekendowa</td><td>$200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">PROCEDURY I DIAGNOSTYKA</div>
+        <table>
+            <thead><tr><th>Zabieg</th><th>Stawka</th><th>Wybór</th></tr></thead>
+            <tbody>
+                <tr data-name="EKG 12-odprowadzeń" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Intubacja" data-price="405"><td>Intubacja dotchawicza</td><td>$405.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Defibrylacja" data-price="315"><td>Defibrylacja</td><td>$315.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Fentanyl" data-price="117"><td>Fentanyl</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Defibrylacja" data-price="315"><td>Defibrylacja / Kardiowersja</td><td>$315.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV)</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">OPATRUNKI I STABILIZACJA</div>
+        <table>
+            <thead><tr><th>Materiał</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody>
+                <tr data-name="Zestaw Opatrunkowy" data-price="80"><td>Zestaw Gazy i Bandaży</td><td>$80.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Kołnierz Szyjny" data-price="120"><td>Kołnierz ortopedyczny</td><td>$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">LEKI I FARMACOLOGIA</div>
+        <table>
+            <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
+            <tbody>
+                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Narcan" data-price="135"><td>Narcan (Naloxon)</td><td>$135.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Fentanyl" data-price="117"><td>Leki przeciwbólowe</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
             </tbody>
         </table>
     </div>
@@ -191,13 +225,12 @@
         <button class="btn-action" onclick="generateInvoice()">GENERUJ RACHUNEK</button>
     </div>
 
-    <footer>RIVER CITY EMS BILLING SYSTEM</footer>
+    <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP</footer>
 </div>
 
 <script>
     function generateInvoice() {
-        let total = 0;
-        let items = [];
+        let total = 0; let items = [];
         const patient = document.getElementById('patient-name').value || "NIEZNANY";
         const ems = document.getElementById('ems-name').value || "DYŻURNY RATOWNIK";
 
@@ -220,11 +253,7 @@
         });
 
         localStorage.setItem('lastInvoice', JSON.stringify({
-            patient: patient,
-            ems: ems,
-            total: total.toFixed(2),
-            items: items,
-            date: new Date().toLocaleString()
+            patient: patient, ems: ems, total: total.toFixed(2), items: items, date: new Date().toLocaleString()
         }));
         window.location.href = 'rachunek.html';
     }
