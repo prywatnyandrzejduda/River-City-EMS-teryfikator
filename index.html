@@ -104,7 +104,10 @@
             padding: 8px;
             border-radius: 4px;
             outline: none;
+            width: 60px;
         }
+
+        .data-input[type="text"] { width: 100%; }
 
         .billing-summary {
             position: sticky;
@@ -158,11 +161,11 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div>
                 <label>Pacjent:</label><br>
-                <input type="text" id="patient-name" class="data-input" placeholder="Imię i Nazwisko..." style="width: 100%;">
+                <input type="text" id="patient-name" class="data-input" placeholder="Imię i Nazwisko...">
             </div>
             <div>
                 <label>Ratownik Wystawiający:</label><br>
-                <input type="text" id="ems-name" class="data-input" placeholder="Twój podpis..." style="width: 100%;">
+                <input type="text" id="ems-name" class="data-input" placeholder="Twój podpis...">
             </div>
         </div>
     </div>
@@ -188,8 +191,8 @@
                 <tr data-name="EKG 12-odprowadzeń" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Intubacja" data-price="405"><td>Intubacja dotchawicza</td><td>$405.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Defibrylacja" data-price="315"><td>Defibrylacja / Kardiowersja</td><td>$315.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV)</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV)</td><td>$110.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru</td><td>$45.00</td><td><input type="checkbox" class="calc-check"></td></tr>
             </tbody>
         </table>
     </div>
@@ -199,9 +202,9 @@
         <table>
             <thead><tr><th>Materiał</th><th>Stawka</th><th>Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Zestaw Opatrunkowy" data-price="80"><td>Zestaw Gazy i Bandaży</td><td>$80.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
-                <tr data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
-                <tr data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Zestaw Opatrunkowy" data-price="80"><td>Zestaw Gazy i Bandaży</td><td>$80.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
                 <tr data-name="Kołnierz Szyjny" data-price="120"><td>Kołnierz ortopedyczny</td><td>$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
             </tbody>
         </table>
@@ -212,10 +215,10 @@
         <table>
             <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
-                <tr data-name="Narcan" data-price="135"><td>Narcan (Naloxon)</td><td>$135.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
-                <tr data-name="Fentanyl" data-price="117"><td>Leki przeciwbólowe</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
-                <tr data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0"></td></tr>
+                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Narcan" data-price="135"><td>Narcan (Naloxon)</td><td>$135.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Fentanyl" data-price="117"><td>Leki przeciwbólowe</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
             </tbody>
         </table>
     </div>
