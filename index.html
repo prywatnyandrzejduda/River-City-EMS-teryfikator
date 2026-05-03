@@ -11,7 +11,7 @@
             --dark-blue: #0a192f;
             --success-green: #00ff88;
             --text-light: #e6f1ff;
-            --card-bg: rgba(16, 33, 65, 0.8);
+            --card-bg: rgba(16, 33, 65, 0.9);
         }
 
         body {
@@ -29,55 +29,60 @@
             background: var(--card-bg);
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
             position: relative;
         }
 
         .logo-container {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             text-align: right;
         }
 
         .logo-img {
-            max-width: 90px;
+            max-width: 100px;
             height: auto;
-            border-radius: 5px;
+            border-radius: 8px;
             display: block;
             margin-bottom: 5px;
+            border: 1px solid var(--primary-blue);
         }
 
         header {
             text-align: center;
             margin-bottom: 40px;
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
             color: var(--primary-blue);
-            font-size: 2.8rem;
+            font-size: 3rem;
             margin: 0;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
         }
 
         .section-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            margin-bottom: 20px;
             overflow: hidden;
             padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-header {
-            background: rgba(0, 212, 255, 0.1);
-            padding: 15px 20px;
+            background: rgba(0, 212, 255, 0.15);
+            padding: 12px 20px;
             font-weight: bold;
-            border-left: 4px solid var(--primary-blue);
-            margin: -20px -20px 20px -20px;
+            border-left: 5px solid var(--primary-blue);
+            margin: -20px -20px 15px -20px;
+            font-family: 'Orbitron';
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         table {
@@ -86,61 +91,70 @@
         }
 
         th, td {
-            padding: 12px 20px;
+            padding: 10px 15px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         th {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary-blue);
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input[type="number"], .data-input {
-            background: #020c1b;
+            background: #010813;
             border: 1px solid var(--primary-blue);
             color: white;
-            padding: 8px;
+            padding: 6px;
             border-radius: 4px;
             outline: none;
-            width: 60px;
         }
 
-        .data-input[type="text"] { width: 100%; }
+        .calc-qty { width: 55px; }
+        .data-input[type="text"] { width: 100%; box-sizing: border-box; }
 
         .billing-summary {
             position: sticky;
             bottom: 20px;
             background: linear-gradient(90deg, #00d4ff, #0056b3);
             color: #020c1b;
-            padding: 25px;
+            padding: 20px 30px;
             border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 40px;
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            margin-top: 30px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
+            z-index: 100;
         }
 
         .btn-action {
             background: #020c1b;
             color: var(--primary-blue);
-            border: 2px solid #020c1b;
-            padding: 15px 25px;
+            border: none;
+            padding: 15px 30px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             text-transform: uppercase;
             font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .btn-action:hover {
+            background: #0a192f;
+            box-shadow: 0 0 15px var(--primary-blue);
         }
 
         footer {
             text-align: center;
             margin-top: 30px;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -152,33 +166,35 @@
     </div>
 
     <header>
-        <h1>FlushRP-EMS</h1>
-        <div style="font-size:0.8rem; margin-top:10px;">REGION: RIVER CITY</div>
+        <h1>FLUSHRP-EMS</h1>
+        <div style="font-size:0.85rem; margin-top:5px; color: var(--primary-blue);">CENTRAL BILLING SYSTEM | RIVER CITY</div>
     </header>
 
     <div class="section-card">
-        <div class="section-header">DANE OPERACYJNE</div>
+        <div class="section-header">INFORMACJE O ZGŁOSZENIU</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div>
-                <label>Pacjent:</label><br>
-                <input type="text" id="patient-name" class="data-input" placeholder="Imię i Nazwisko...">
+                <label style="font-size: 0.8rem; opacity: 0.8;">Pacjent (Imię i Nazwisko):</label><br>
+                <input type="text" id="patient-name" class="data-input" placeholder="Wprowadź dane...">
             </div>
             <div>
-                <label>Ratownik Wystawiający:</label><br>
-                <input type="text" id="ems-name" class="data-input" placeholder="Twój podpis...">
+                <label style="font-size: 0.8rem; opacity: 0.8;">Podpis Ratownika:</label><br>
+                <input type="text" id="ems-name" class="data-input" placeholder="Twoje imię i stopień...">
             </div>
         </div>
     </div>
+
     <div class="section-card">
-        <div class="section-header">TRANSPORT I PODSTAWA</div>
+        <div class="section-header">TRANSPORT I USŁUGI BAZOWE</div>
         <table>
             <thead><tr><th>Usługa</th><th>Stawka</th><th>Wybór/Ilość</th></tr></thead>
             <tbody>
                 <tr data-name="Transport BLS" data-price="585"><td>Transport BLS (Podstawowy)</td><td>$585.00</td><td><input type="checkbox" class="calc-check"></td></tr>
                 <tr data-name="Transport ALS" data-price="950"><td>Transport ALS (Zaawansowany)</td><td>$950.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Transport HEMS" data-price="2500"><td>Transport Lotniczy (HEMS)</td><td>$2500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Przebieg (Mile)" data-price="22.5"><td>Przebieg (Mile)</td><td>$22.50</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Dopłata Nocna" data-price="200"><td>Dopłata Nocna / Weekendowa</td><td>$200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport Specjalny" data-price="1200"><td>Transport pod nadzorem (LSPD/Więzienny)</td><td>$1200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Transport Zwłok" data-price="1500"><td>Transport zwłok do kostnicy</td><td>$1500.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Przebieg (Mile)" data-price="25"><td>Przebieg (Mile)</td><td>$25.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Dopłata Nocna" data-price="300"><td>Dopłata Nocna / Weekendowa</td><td>$300.00</td><td><input type="checkbox" class="calc-check"></td></tr>
             </tbody>
         </table>
     </div>
@@ -188,11 +204,14 @@
         <table>
             <thead><tr><th>Zabieg</th><th>Stawka</th><th>Wybór</th></tr></thead>
             <tbody>
-                <tr data-name="EKG 12-odprowadzeń" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Intubacja" data-price="405"><td>Intubacja dotchawicza</td><td>$405.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Defibrylacja" data-price="315"><td>Defibrylacja / Kardiowersja</td><td>$315.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV)</td><td>$110.00</td><td><input type="checkbox" class="calc-check"></td></tr>
-                <tr data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru</td><td>$45.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="EKG Pełne" data-price="135"><td>EKG 12-odprowadzeniowe</td><td>$135.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Monitorowanie Parametrów" data-price="200"><td>Stałe monitorowanie pacjenta</td><td>$200.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Intubacja" data-price="450"><td>Intubacja dotchawicza / Rurka G-K</td><td>$450.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Defibrylacja" data-price="350"><td>Defibrylacja / Kardiowersja</td><td>$350.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Dostęp IV" data-price="110"><td>Dostęp dożylny (IV / IO)</td><td>$110.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Pomiar Glikemii" data-price="45"><td>Pomiar poziomu cukru (Glikemia)</td><td>$45.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Tlenoterapia" data-price="150"><td>Podanie tlenu (Maska/Wąsy)</td><td>$150.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Odsysanie Dróg Oddechowych" data-price="180"><td>Odsysanie dróg oddechowych</td><td>$180.00</td><td><input type="checkbox" class="calc-check"></td></tr>
             </tbody>
         </table>
     </div>
@@ -202,10 +221,13 @@
         <table>
             <thead><tr><th>Materiał</th><th>Stawka</th><th>Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Zestaw Opatrunkowy" data-price="80"><td>Zestaw Gazy i Bandaży</td><td>$80.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Zestaw Opatrunkowy" data-price="85"><td>Zestaw Gazy i Bandaży</td><td>$85.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Opatrunek Hemostatyczny" data-price="150"><td>Opatrunek na rany postrzałowe/krwotoki</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
                 <tr data-name="Staza Taktyczna" data-price="180"><td>Staza Taktyczna (Tourniquet)</td><td>$180.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Szyna Stabilizująca" data-price="150"><td>Stabilizacja kończyny (Szyna Kramer/Sam)</td><td>$150.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
                 <tr data-name="Kołnierz Szyjny" data-price="120"><td>Kołnierz ortopedyczny</td><td>$120.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Kołdra Grzewcza" data-price="90"><td>Kołdra grzewcza (NRC / Aktywna)</td><td>$90.00</td><td><input type="checkbox" class="calc-check"></td></tr>
+                <tr data-name="Pas Miedniczny" data-price="250"><td>Pas do stabilizacji miednicy</td><td>$250.00</td><td><input type="checkbox" class="calc-check"></td></tr>
             </tbody>
         </table>
     </div>
@@ -215,20 +237,22 @@
         <table>
             <thead><tr><th>Lek</th><th>Stawka</th><th>Ilość</th></tr></thead>
             <tbody>
-                <tr data-name="Adrenalina" data-price="108"><td>Adrenalina (Epinephrine)</td><td>$108.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Narcan" data-price="135"><td>Narcan (Naloxon)</td><td>$135.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Fentanyl" data-price="117"><td>Leki przeciwbólowe</td><td>$117.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
-                <tr data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Adrenalina" data-price="110"><td>Adrenalina (Epinephrine 1mg)</td><td>$110.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Narcan" data-price="140"><td>Narcan (Przedawkowania)</td><td>$140.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Leki Przeciwbólowe" data-price="120"><td>Morfina / Fentanyl / Ketamina</td><td>$120.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Sól Fizjologiczna" data-price="90"><td>Płyny IV (Sól/Glukoza 500ml)</td><td>$90.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Leki Przeciwdrgawkowe" data-price="130"><td>Relanium / Midazolam</td><td>$130.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
+                <tr data-name="Glukoza 40%" data-price="60"><td>Glukoza 40% (Ampułka)</td><td>$60.00</td><td><input type="number" class="calc-qty" value="0" min="0"></td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="billing-summary">
-        <h2 style="margin:0;">SUMA: <span id="total-amount">$0.00</span></h2>
+        <h2 style="margin:0; font-family: 'Orbitron';">SUMA: <span id="total-amount">$0.00</span></h2>
         <button class="btn-action" onclick="generateInvoice()">GENERUJ RACHUNEK</button>
     </div>
 
-    <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP</footer>
+    <footer>RIVER CITY EMS BILLING SYSTEM // FLUSHRP 2026</footer>
 </div>
 
 <script>
@@ -266,7 +290,7 @@
         document.querySelectorAll('.calc-check').forEach(i => { if(i.checked) t += parseFloat(i.closest('tr').dataset.price); });
         document.querySelectorAll('.calc-qty').forEach(i => { t += (parseInt(i.value)||0) * parseFloat(i.closest('tr').dataset.price); });
         document.getElementById('total-amount').innerText = '$' + t.toLocaleString('en-US', {minimumFractionDigits: 2});
-    }, 500);
+    }, 400);
 </script>
 </body>
 </html>
