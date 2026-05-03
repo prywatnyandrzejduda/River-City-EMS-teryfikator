@@ -21,7 +21,7 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-        }
+        }     
 
         .container {
             max-width: 1000px;
@@ -188,7 +188,7 @@
             </div>
         <button class="btn-action" style="margin-top: 20px; background: gold; color: black;" onclick="saveNewPrices()">ZAPISZ ZMIANY CEN</button>
     </div>
-
+<button class="btn-action" style="background: #ff4444; color: white; margin-top: 10px;" onclick="resetToDefault()">RESETUJ DO FABRYCZNYCH</button>
     <div class="logo-container">
         <img src="obraz_2026-05-02_212208153.png" alt="FlushRP Logo" class="logo-img">
     </div>
@@ -367,7 +367,17 @@
 </script>
     <script>
     // ŁADOWANIE CEN Z PAMIĘCI
-    window.onload = function() {
+    function resetToDefault() {
+    if(confirm("Czy na pewno chcesz usunąć wszystkie zmiany i przywrócić pierwotne ceny?")) {
+        // Usuwamy zapisane dane z pamięci przeglądarki
+        localStorage.removeItem('ems_prices_v2');
+        
+        // Informujemy i odświeżamy stronę, by wczytać ceny z kodu HTML
+        alert("Przywrócono ceny fabryczne!");
+        location.reload();
+    }
+}
+        window.onload = function() {
         const savedPrices = JSON.parse(localStorage.getItem('ems_prices_v2'));
         if(savedPrices) {
             Object.keys(savedPrices).forEach(id => {
